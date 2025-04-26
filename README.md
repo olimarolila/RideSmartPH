@@ -1,12 +1,11 @@
-# React + Vite
+PROJECT TITLE 6:  RideSmart PH: Motorcycle Maintenance for Sustainability
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+PROJECT DESCRIPTION: 
+RideSmart PH is a web application that empowers motorcycle owners to practice sustainable and responsible vehicle maintenance. Recognizing that well-maintained motorcycles emit fewer pollutants and consume fuel more efficiently, the platform allows users to log and monitor their motorcycle’s maintenance schedules, such as oil changes, air filter replacements, tire checks, and brake inspections.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application features a personalized maintenance dashboard for each registered vehicle, offering automatic reminders for upcoming tasks, historical maintenance logs, and cost tracking. Additionally, it provides educational content on eco-friendly motorcycle practices, including fuel-saving tips, green product recommendations, and local mechanic directories that promote sustainable services.
 
-## Expanding the ESLint configuration
+Aligned with SDG 12 (Responsible Consumption and Production) and SDG 9 (Industry, Innovation and Infrastructure), RideSmart PH promotes a culture of preventive maintenance to reduce environmental harm and increase vehicle lifespan, encouraging riders to contribute to a cleaner, more efficient future on the road.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+TARGET USERS: Motorcycle owners, delivery riders, ride-hailing drivers, and environmentally conscious vehicle users who want to maintain their motorcycles efficiently while reducing their carbon footprint.
