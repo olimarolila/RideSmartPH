@@ -1,13 +1,18 @@
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #002d18; 
+}
+
+
 h1 {
     font-family: 'Bebas Neue', sans-serif;
     color: white;
   }
   
-  body {
-    /* background-color: #002d18; */
-
-  }
-
   /* for loading */
   .loading-screen {
     position: fixed;
@@ -37,7 +42,10 @@ h1 {
 
   /* Navbar */
   nav {
-    background-color: #133D1E;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* background-color: #133D1E; */
     font-family: "Inter", sans-serif;
     font-weight: 600;
   }
@@ -49,7 +57,7 @@ h1 {
   nav .nav-link:hover, 
   nav .nav-link:focus, 
   nav .nav-link.active {
-    color: #aad6ef;
+    color: #6ed5af;
   }
   
   nav .dropdown-menu {
@@ -66,6 +74,16 @@ h1 {
     background-color: #aad6ef;
     color: #133D1E;
   }
+
+  /* navbar color */
+  .navbar-toggler {
+    border-color: white;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
   .login-btn {
     background-color: transparent;
     border: 2px solid white;
@@ -157,7 +175,50 @@ h1 {
   height: auto;
 }
 
+/* For information Boxes */
+.information {
+  font-family: 'Inter', sans-serif;
+  
+}
+
+.mainBox{
+  margin-top: -6rem;
+
+}
+
+.info-box {
+  background-color: #eefdf0;
+  border-radius: 20px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+
+
+.info-box:hover {
+  transform: translateY(-5px);
+}
+
+.info-title {
+  font-family: 'Bebas Neue', sans-serif;
+  color: #153e2b;
+  font-size: 2rem;
+}
+
+.info-subtitle {
+  text-align: justify;
+  margin-right: 2rem;
+  color: #555454;
+}
+
+
 /* modal */
+.modal{
+  font-family: "Inter", sans-serif;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -172,7 +233,7 @@ h1 {
 }
 
 .modal-content {
-  background-color: #f5f9fb;
+  background-color: #f5fbf5;
   padding: 2rem;
   border-radius: 20px;
   width: 90%;
@@ -226,4 +287,35 @@ h1 {
   color: #133D1E;
   text-decoration: underline;
   cursor: pointer;
+}
+
+
+
+/* animation */
+
+.slide-bottom {
+	-webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+
+ @-webkit-keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+}
+@keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
 }

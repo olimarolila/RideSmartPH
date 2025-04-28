@@ -1,4 +1,4 @@
-function Header() {
+function Header({ openLogin }) {
     return (
       <div className="header-section">
         <div className="header-left">
@@ -6,11 +6,8 @@ function Header() {
           <p className="header-subtitle">
             Track your maintenance schedule and keep your motorcycle running efficiently to reduce your environmental impact.
           </p>
-          <a href="#" className="get-started-btn">Get Started</a>
+          <button className="get-started-btn" onClick={openLogin}>Get Started</button>
         </div>
-        {/* <div className="header-right">
-          <img src="src/assets/images/vector bg 2.png" alt="Motorcycle" className="header-image" />
-        </div> */}
       </div>
     );
   }

@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
-import NavBar from "./components/NavBar"; 
-import Header from "./components/Header"; 
+import NavBar from "./components/NavBar";
+import Header from "./components/Header";
+import Info from "./components/Info";
+import LoginModal from "./components/LoginModal";  // ← Correct path
+import SignUpModal from "./components/SignUpModal"; // ← Correct path
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignUpModal, setShowSignUpModal] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -12,12 +17,32 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  const openLogin = () => {
+    setShowLoginModal(true);
+    setShowSignUpModal(false);
+  };
+
+  const openSignUp = () => {
+    setShowSignUpModal(true);
+    setShowLoginModal(false);
+  };
+
+  const closeModals = () => {
+    setShowLoginModal(false);
+    setShowSignUpModal(false);
+  };
+
   return (
     <>
       {/* Content always loads */}
-      <NavBar />
-      <Header />
-      {/* Any other components */}
+      <NavBar openLogin={openLogin} openSignUp={openSignUp} />
+      <Header openLogin={openLogin} />
+
+      <Info />
+
+      {/* Modals */}
+      <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
+      <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
 
       {/* Loading overlay */}
       {loading && (
@@ -28,6 +53,5 @@ function App() {
     </>
   );
 }
-
 
 export default App;
