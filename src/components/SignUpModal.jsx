@@ -8,11 +8,13 @@ function SignUpModal({ show, onClose, onSwitch }) {
               <button type="button" className="btn-close" onClick={onClose}></button>
             </div>
             <div className="modal-body">
+              <input type="username" className="form-control mb-3" placeholder="Username" />
               <input type="email" className="form-control mb-3" placeholder="Email" />
               <input type="password" className="form-control mb-3" placeholder="Password" />
+              <input type="cpassword" className="form-control mb-3" placeholder="Confirm Password" />
               <button className="btn btn-success w-100">Sign Up</button>
               <p className="mt-3 text-center">
-                Already have an account? <span style={{cursor: 'pointer', color: '#0d6efd'}} onClick={onSwitch}>Log In here</span>
+                Already have an account? <span style={{cursor: 'pointer', color: '#0d6efd'}} onClick={onSwitch}>Log In</span>
               </p>
             </div>
           </div>

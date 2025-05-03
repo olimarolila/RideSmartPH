@@ -178,12 +178,13 @@ h1 {
 /* For information Boxes */
 .information {
   font-family: 'Inter', sans-serif;
+  justify-content: center;
   
 }
 
 .mainBox{
   margin-top: -6rem;
-
+  justify-content: center;
 }
 
 .info-box {
@@ -191,6 +192,7 @@ h1 {
   border-radius: 20px;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
   height: 100%;
+  align-items: center;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s;

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import Info from "./components/Info";
-import LoginModal from "./components/LoginModal";  // ← Correct path
-import SignUpModal from "./components/SignUpModal"; // ← Correct path
+import LoginModal from "./components/LoginModal";  
+import SignUpModal from "./components/SignUpModal"; 
+// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   const [loading, setLoading] = useState(true);

@@ -12,7 +12,7 @@ function LoginModal({ show, onClose, onSwitch }) {
               <input type="password" className="form-control mb-3" placeholder="Password" />
               <button className="btn btn-success w-100">Login</button>
               <p className="mt-3 text-center">
-                Don’t have an account? <span style={{cursor: 'pointer', color: '#0d6efd'}} onClick={onSwitch}>Sign Up here</span>
+                Don’t have an account? <span style={{cursor: 'pointer', color: '#0d6efd'}} onClick={onSwitch}>Sign Up</span>
               </p>
             </div>
           </div>
