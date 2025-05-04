@@ -5,6 +5,7 @@ import Info from "./components/Info";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import About from "./pages/About"; // Import the About page
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -34,24 +35,31 @@ function App() {
     };
 
     return (
-        <div>
-            {/* Content always loads */}
-            <NavBar openLogin={openLogin} openSignUp={openSignUp} />
-            <Header openLogin={openLogin} />
+        <Router>
+            <div>
+                <NavBar openLogin={openLogin} openSignUp={openSignUp} />
 
-            <Info />
+                <Routes>
+                <Route path="/" element={
+                    <>
+                    <Header openLogin={openLogin} />
+                    <Info />
+                    </>
+                } />
+                <Route path="/about" element={<About />} />
+                </Routes>
 
-            {/* Modals */}
-            <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
-            <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
+                <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
+                <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
 
-            {/* Loading overlay */}
-            {loading && (
-                <div className="loading-screen">
-                    <img src="src/assets/images/motor.gif" alt="Loading..." className="loading-motor" />
-                </div>
-            )}
-        </div>
+                {loading && (
+                    <div className="loading-screen">
+                        <img src="src/assets/images/motor.gif" alt="Loading..." className="loading-motor" />
+                    </div>
+                )}
+            </div>
+        </Router>
+
     );
 }
 

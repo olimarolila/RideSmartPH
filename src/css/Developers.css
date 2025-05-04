@@ -1,0 +1,56 @@
+.developer-section {
+    background-color: #002d18;
+    color: white;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.developer-title {
+    font-family: Montserrat, sans-serif;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    margin-top: 5rem;
+}
+  
+.developer-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 7rem;
+}
+  
+.developer-card {
+    background: linear-gradient(to top, #003d1d, #2f8f2f);
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.developer-card:hover {
+    transform: scale(1.05); /* Optional: subtle hover zoom */
+}
+
+.developer-img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Ensures square shape */
+    object-fit: cover;
+}
+  
+.developer-info {
+    padding: 1rem;
+}
+  
+.developer-info h3 {
+    font-family: Bebas Neue, sans-serif;
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+}
+  
+.developer-info p {
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    margin: 0;
+}

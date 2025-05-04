@@ -16,18 +16,18 @@ function SignUpModal({ show, onClose, onSwitch }) {
                     <div className="modal-body">
 
                         <div className="form-floating mb-3">
-                            <input type="text" className="form-control" id="username" placeholder="Username" />
+                            <input type="text" className="form-control" id="signup-username" placeholder="Username" />
                             <label htmlFor="username">Username</label>
                         </div>
 
                         <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="email" placeholder="Email" />
+                            <input type="email" className="form-control" id="signup-email" placeholder="Email" />
                             <label htmlFor="email">Email</label>
                         </div>
 
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="password" placeholder="Password" />
+                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-password" placeholder="Password" />
                                 <label htmlFor="password">Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowPassword(!showPassword)}>
@@ -37,7 +37,7 @@ function SignUpModal({ show, onClose, onSwitch }) {
 
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input type={showConfirmPassword ? 'text' : 'password'} className="form-control pe-5" id="confirmPassword" placeholder="Confirm Password" />
+                                <input type={showConfirmPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-confirmPassword" placeholder="Confirm Password" />
                                 <label htmlFor="confirmPassword">Confirm Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setshowConfirmPassword(!showConfirmPassword)}>

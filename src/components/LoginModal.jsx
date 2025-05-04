@@ -14,13 +14,13 @@ function LoginModal({ show, onClose, onSwitch }) {
                     </div>
                     <div className="modal-body">
                         <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="email" placeholder="Email" />
+                            <input type="email" className="form-control" id="login-email" placeholder="Email" />
                             <label htmlFor="email">Email</label>
                         </div>
                         
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="password" placeholder="Password" />
+                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="login-password" placeholder="Password" />
                                 <label htmlFor="password">Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowPassword(!showPassword)}>

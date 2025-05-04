@@ -1,11 +1,9 @@
-import NavBar from "../components/NavBar";
-
+import Developers from "../components/Developers";
 
 function About() {
     return (
         <div>
-            <h2>About RideSmart PH</h2>
-            <p>This is the about page content.</p>
+            <Developers />
         </div>
     );
 }

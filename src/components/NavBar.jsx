@@ -1,15 +1,16 @@
 import '../css/NavBar.css';
+import { Link } from 'react-router-dom';
 
 function NavBar({ openLogin, openSignUp }) {
     return (
         <div className="navigation">
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex align-items-center ms-3">
-                    <a className="navbar-brand" href="#">
+                    <Link className="navbar-brand" to="/">
                         <img src="src/assets/images/MOTOR ISOLATED LOGO.png" alt="Logo" width={50} />
-                    </a>
+                    </Link>
                     <h1 className="mb-0 me-3">RIDESMART PH</h1>
-                    <button type="button" className="navbar-toggler ms-auto"  data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <button type="button" className="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
@@ -30,7 +31,7 @@ function NavBar({ openLogin, openSignUp }) {
                                 </ul>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#">About</a>
+                                <Link className="nav-link" to="/About">About</Link>
                             </li>
                         </ul>
 
