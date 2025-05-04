@@ -1,0 +1,117 @@
+.login-modal {
+    font-family: "Inter", sans-serif;
+}
+  
+.login-modal .modal-content {
+    background-color: #f5fbf5;
+    padding: 2rem;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+}
+  
+.login-modal .modal-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #133D1E;
+}
+  
+.login-modal input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+  
+.login-modal input:focus {
+    border-color: #133D1E;
+    box-shadow: 0 0 6px 3px #2e8b57;
+}
+  
+.login-modal .btn-close {
+    filter: brightness(0) saturate(100%) invert(16%) sepia(27%) saturate(922%) hue-rotate(79deg) brightness(94%) contrast(91%);
+    opacity: 1;
+}
+  
+.login-modal .btn-modal, .login-modal .btn-success {
+    background-color: #133D1E !important;
+    color: white !important;
+    padding: 12px 20px;
+    border: none;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+  
+.login-modal .btn-modal:hover, .login-modal .btn-success:hover {
+    background-color: #0f3319 !important;
+    box-shadow: 0 0 6px 3px #2e8b57;
+}
+  
+.login-modal p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #133D1E;
+}
+  
+.login-modal p span {
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+  
+.login-modal .toggle-visibility {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    color: #133D1E;
+    z-index: 2;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+  
+.login-modal .form-control {
+    padding-right: 2.5rem;
+}
+
+/* Animation */
+.slide-bottom {
+    -webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+            animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+}
+
+@keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+    100% {
+        -webkit-transform: translateY(100px);
+        transform: translateY(100px);
+    }
+}

@@ -1,0 +1,46 @@
+.mainBox {
+    margin-top: -10rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+  
+.info-box {
+    background-color: #F5FBF5;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    height: 250px;
+    width: 100%;
+    max-width: 400px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    padding: 2rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+}
+  
+.info-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #153e2b;
+}
+  
+.info-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    text-align: justify;
+    color: black;
+}
+
+.info-icon-title {
+    height: 60px;
+    object-fit: contain;
+    margin-right: 1rem;
+}

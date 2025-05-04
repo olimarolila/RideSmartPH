@@ -1,20 +1,17 @@
-
-
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background-color: #002d18; 
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #eff0e5; 
 }
-
 
 h1 {
     font-family: 'Bebas Neue', sans-serif;
     color: white;
-  }
+}
   
-  /* for loading */
-  .loading-screen {
+/* for loading */
+.loading-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -25,299 +22,15 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 9999;
-  }
+}
   
-  .loading-motor {
+.loading-motor {
     width: 180px;
     height: auto;
     animation: motorMove 1.5s infinite alternate;
-  }
+}
   
-  @keyframes motorMove {
+@keyframes motorMove {
     0% { transform: translateX(0); }
     100% { transform: translateX(20px); }
-  }
-  
-  
-
-  /* Navbar */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    /* background-color: #133D1E; */
-    font-family: "Inter", sans-serif;
-    font-weight: 600;
-  }
-  
-  nav .nav-link {
-    color: white;
-  }
-  
-  nav .nav-link:hover, 
-  nav .nav-link:focus, 
-  nav .nav-link.active {
-    color: #6ed5af;
-  }
-  
-  nav .dropdown-menu {
-    background-color: white;
-    border: none;
-  }
-  
-  nav .dropdown-item {
-    color: #133D1E;
-  }
-  
-  nav .dropdown-item:hover, 
-  nav .dropdown-item:focus {
-    background-color: #aad6ef;
-    color: #133D1E;
-  }
-
-  /* navbar color */
-  .navbar-toggler {
-    border-color: white;
-  }
-  
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
-  
-  .login-btn {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-weight: 400;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .login-btn:hover {
-    background-color: white;
-    color: #133D1E;
-  }
-  
-  .signup-btn {
-    background-color: #4e8e40;
-    border: 2px solid #4e8e40;
-    color: white;
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-weight: 600;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .signup-btn:hover {
-    background-color: white;
-    color: #133D1E;
-  }
-  
-  
-  
-
-  /* Header */
-  .header-section {
-    background-image: url('src/assets/images/vector bg 1.svg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100vh;
-    margin-top: -7rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 80px 100px;
-  /* background-color: #f5f9fb; */
-}
-
-.header-left {
-  max-width: 600px;
-}
-
-.header-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem;
-  color: #ffffff;
-  margin-bottom: 20px;
-}
-
-.header-subtitle {
-  font-family: "Inter", sans-serif;
-  font-size: 1.25rem;
-  color: #d1cece;
-  margin-bottom: 30px;
-}
-
-.get-started-btn {
-  background-color: #133D1E;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-}
-
-.get-started-btn:hover {
-  background-color: #0f3319;
-}
-
-.header-right {
-  flex-shrink: 0;
-}
-
-.header-image {
-  width: 400px;
-  height: auto;
-}
-
-/* For information Boxes */
-.information {
-  font-family: 'Inter', sans-serif;
-  justify-content: center;
-  
-}
-
-.mainBox{
-  margin-top: -6rem;
-  justify-content: center;
-}
-
-.info-box {
-  background-color: #eefdf0;
-  border-radius: 20px;
-  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-  height: 100%;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s;
-}
-
-
-
-.info-box:hover {
-  transform: translateY(-5px);
-}
-
-.info-title {
-  font-family: 'Bebas Neue', sans-serif;
-  color: #153e2b;
-  font-size: 2rem;
-}
-
-.info-subtitle {
-  text-align: justify;
-  margin-right: 2rem;
-  color: #555454;
-}
-
-
-/* modal */
-.modal{
-  font-family: "Inter", sans-serif;
-}
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1050;
-}
-
-.modal-content {
-  background-color: #f5fbf5;
-  padding: 2rem;
-  border-radius: 20px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-}
-
-.modal-content h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  color: #133D1E;
-  margin-bottom: 20px;
-}
-
-.modal-content input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border: 2px solid black;
-  border-radius: 10px;
-  font-size: 1rem;
-}
-
-.btn-modal {
-  background-color: #133D1E;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  margin-top: 20px;
-  border-radius: 10px;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  width: 100%;
-  transition: background-color 0.3s;
-}
-
-.btn-modal:hover {
-  background-color: #0f3319;
-}
-
-.modal-content p {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #133D1E;
-}
-
-.modal-content p a {
-  font-weight: bold;
-  color: #133D1E;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-
-
-/* animation */
-
-.slide-bottom {
-	-webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-	        animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-}
-
-
- @-webkit-keyframes slide-bottom {
-  0% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  100% {
-    -webkit-transform: translateY(100px);
-            transform: translateY(100px);
-  }
-}
-@keyframes slide-bottom {
-  0% {
-    -webkit-transform: translateY(0);
-            transform: translateY(0);
-  }
-  100% {
-    -webkit-transform: translateY(100px);
-            transform: translateY(100px);
-  }
 }
