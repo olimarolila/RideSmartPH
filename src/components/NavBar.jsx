@@ -1,4 +1,6 @@
 import '../css/NavBar.css';
+import logo from '../assets/images/MOTOR ISOLATED LOGO.png';
+
 import { Link } from 'react-router-dom';
 
 function NavBar({ openLogin, openSignUp }) {
@@ -7,7 +9,7 @@ function NavBar({ openLogin, openSignUp }) {
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex align-items-center ms-3">
                     <Link className="navbar-brand" to="/">
-                        <img src="src/assets/images/MOTOR ISOLATED LOGO.png" alt="Logo" width={50} />
+                    <img src={logo} alt="Logo" width={50} />
                     </Link>
                     <h1 className="mb-0 me-3">RIDESMART PH</h1>
                     <button type="button" className="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,10 +18,10 @@ function NavBar({ openLogin, openSignUp }) {
 
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <a className="nav-link" href="src/components/Dashboard.jsx">Dashboard</a>
-                            </li>
-                            <li className="nav-item dropdown">
+                        <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                        </li>
+                        {/* <li className="nav-item dropdown">
                                 <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Dropdown
                                 </a>
@@ -29,7 +31,7 @@ function NavBar({ openLogin, openSignUp }) {
                                     <li><hr className="dropdown-divider" /></li>
                                     <li><a className="dropdown-item" href="#">Something else here</a></li>
                                 </ul>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link className="nav-link" to="/About">About</Link>
                             </li>

@@ -4,8 +4,10 @@ import Header from "./components/Header";
 import Info from "./components/Info";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
+import loadingGif from './assets/images/motor.gif';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import About from "./pages/About"; // Import the About page
+import About from "./pages/About"; 
+import Dashboard from "./pages/Dashboard"; 
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -46,6 +48,7 @@ function App() {
                     <Info />
                     </>
                 } />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/about" element={<About />} />
                 </Routes>
 
@@ -53,10 +56,11 @@ function App() {
                 <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
 
                 {loading && (
-                    <div className="loading-screen">
-                        <img src="src/assets/images/motor.gif" alt="Loading..." className="loading-motor" />
-                    </div>
+                <div className="loading-screen">
+                    <img src={loadingGif} alt="Loading..." className="loading-motor" />
+                </div>
                 )}
+
             </div>
         </Router>
 
