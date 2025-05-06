@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import Info from "./components/Info";
+import Footer from "./components/Footer";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
 import loadingGif from './assets/images/motor.gif';
@@ -51,7 +52,6 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/about" element={<About />} />
                 </Routes>
-
                 <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
                 <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
 
@@ -63,7 +63,6 @@ function App() {
 
             </div>
         </Router>
-
     );
 }
 
