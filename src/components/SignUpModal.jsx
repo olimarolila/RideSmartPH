@@ -3,7 +3,33 @@ import '../css/SignUpModal.css';
 
 function SignUpModal({ show, onClose, onSwitch }) {
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setshowConfirmPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const handleSignUp = () => {
+        if (!username || !email || !password || !confirmPassword){
+            alert('Please fill out all fields.');
+            return;
+        }
+
+        if (password !== confirmPassword){
+            alert('Password do not match.');
+            return;
+        }
+        const userData = {
+            username,
+            email,
+            password
+        };
+
+        localStorage.setItem('user', JSON.stringify(userData));
+        alert('Account created successfully!');
+        onClose();
+    };
 
     return (
         <div className={`signup-modal modal fade ${show ? 'show d-block' : ''}`} tabIndex="-1" style={{ backgroundColor: show ? 'rgba(0,0,0,0.5)' : 'transparent' }}>
@@ -16,19 +42,40 @@ function SignUpModal({ show, onClose, onSwitch }) {
                     <div className="modal-body">
 
                         <div className="form-floating mb-3">
-                            <input type="text" className="form-control" id="signup-username" placeholder="Username" />
-                            <label htmlFor="username">Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="signup-username"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                            <label htmlFor="signup-username">Username</label>
                         </div>
 
                         <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="signup-email" placeholder="Email" />
-                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="signup-email"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <label htmlFor="signup-email">Email</label>
                         </div>
 
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-password" placeholder="Password" />
-                                <label htmlFor="password">Password</label>
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    className="form-control pe-5"
+                                    id="signup-password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <label htmlFor="signup-password">Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowPassword(!showPassword)}>
                                 <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
@@ -37,18 +84,25 @@ function SignUpModal({ show, onClose, onSwitch }) {
 
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input type={showConfirmPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-confirmPassword" placeholder="Confirm Password" />
-                                <label htmlFor="confirmPassword">Confirm Password</label>
+                                <input
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    className="form-control pe-5"
+                                    id="signup-confirmPassword"
+                                    placeholder="Confirm Password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <label htmlFor="signup-confirmPassword">Confirm Password</label>
                             </div>
-                            <button type="button" className="btn toggle-visibility" onClick={() => setshowConfirmPassword(!showConfirmPassword)}>
+                            <button type="button" className="btn toggle-visibility" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
                                 <i className={`bi ${showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
                             </button>
                         </div>
 
-                        <button className="btn btn-success w-100">Sign Up</button>
+                        <button className="btn btn-success w-100" onClick={handleSignUp}>Sign Up</button>
 
                         <p className="text-center">
-                            Already have an account? <span style={{color: '#133D1E'}} onClick={onSwitch}>Log In</span>
+                            Already have an account? <span style={{ color: '#133D1E', cursor: 'pointer' }} onClick={onSwitch}>Log In</span>
                         </p>
                     </div>
                 </div>
@@ -56,5 +110,6 @@ function SignUpModal({ show, onClose, onSwitch }) {
         </div>
     );
 }
+
 
 export default SignUpModal;
