@@ -21,6 +21,8 @@
     font-size: 4.5vw;
     color: white;
     margin-bottom: 20px;
+    user-select: none;
+    caret-color: transparent;
     }
 
 .header-subtitle {
@@ -28,6 +30,8 @@
     font-size: 1.5rem;
     color: white;
     margin-bottom: 50px;
+    user-select: none;
+    caret-color: transparent;
 }
 
 .get-started-btn {
