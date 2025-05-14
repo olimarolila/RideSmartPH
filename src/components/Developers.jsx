@@ -105,10 +105,10 @@ function Developers() {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar eros nec augue convallis tempor.</p>
                         </div>
                         <div className="developer-socials">
-                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.instagram.com/renzybriones_/" target="_blank" rel="noopener noreferrer">
                                 <img src={igIcon} alt="Instagram" className="social-icon" />
                             </a>
-                            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.facebook.com/renzy.briones.9/" target="_blank" rel="noopener noreferrer">
                                 <img src={fbIcon} alt="Facebook" className="social-icon" />
                             </a>
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=laurenznicolo.briones.cics@ust.edu.ph" target="_blank" rel="noopener noreferrer">
@@ -131,10 +131,10 @@ function Developers() {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed lectus vitae nisl sodales fringilla.</p>
                         </div>
                         <div className="developer-socials">
-                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.instagram.com/hironoli_/" target="_blank" rel="noopener noreferrer">
                                 <img src={igIcon} alt="Instagram" className="social-icon" />
                             </a>
-                            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.facebook.com/olimarolila/" target="_blank" rel="noopener noreferrer">
                                 <img src={fbIcon} alt="Facebook" className="social-icon" />
                             </a>
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=olimardominic.olila.cics@ust.edu.ph" target="_blank" rel="noopener noreferrer">
@@ -157,10 +157,10 @@ function Developers() {
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus.</p>
                         </div>
                         <div className="developer-socials">
-                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.instagram.com/julmurie/" target="_blank" rel="noopener noreferrer">
                                 <img src={igIcon} alt="Instagram" className="social-icon" />
                             </a>
-                            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.facebook.com/juliannemuriel.pena/" target="_blank" rel="noopener noreferrer">
                                 <img src={fbIcon} alt="Facebook" className="social-icon" />
                             </a>
                             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=juliannemuriel.pena.cics@ust.edu.ph" target="_blank" rel="noopener noreferrer">
