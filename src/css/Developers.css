@@ -12,45 +12,122 @@
     margin-bottom: 2rem;
     margin-top: 5rem;
 }
-  
+
 .developer-cards {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 7rem;
 }
-  
+
 .developer-card {
     background: linear-gradient(to top, #003d1d, #2f8f2f);
     border-radius: 1rem;
     overflow: hidden;
     width: 300px;
+    position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .developer-card:hover {
-    transform: scale(1.05); /* Optional: subtle hover zoom */
+    transform: scale(1.05);
 }
 
 .developer-img {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Ensures square shape */
+    aspect-ratio: 1 / 1;
     object-fit: cover;
+    transition: filter 0.3s ease;
 }
-  
+
+.developer-card:hover .developer-img {
+    filter: brightness(40%);
+}
+
 .developer-info {
     padding: 1rem;
+    z-index: 1;
+    position: relative;
 }
-  
+
 .developer-info h3 {
-    font-family: Bebas Neue, sans-serif;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 2.5rem;
     margin: 0.5rem 0;
 }
-  
+
 .developer-info p {
-    font-family: Inter, sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
     margin: 0;
 }
+
+/* Overlay */
+.developer-hover-description {
+    position: absolute;
+    inset: 0;
+    background: rgba(46, 125, 50, 0.95);
+    color: white;
+    padding: 1.5rem;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 1rem;
+}
+
+.developer-card:hover .developer-hover-description {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hover-text {
+    overflow-y: auto;
+}
+
+.developer-hover-description h4 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.developer-hover-description p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+/* Socials */
+.developer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 1rem;
+}
+
+.developer-socials a {
+    color: white;
+    font-size: 1.8rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.developer-socials a:hover {
+    transform: scale(1.2);
+    color: #c8ffc8;
+}
+.social-icon {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.developer-socials a:hover .social-icon {
+  transform: scale(1.2);
+}
+
