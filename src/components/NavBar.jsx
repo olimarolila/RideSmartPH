@@ -1,15 +1,39 @@
 import '../css/NavBar.css';
 import logo from '../assets/images/MOTOR ISOLATED LOGO.png';
+import logoutIcon from '../assets/images/logout.png'; // ✅ import the icon
 
 import { Link } from 'react-router-dom';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 
-function NavBar({ openLogin, openSignUp }) {
+function NavBar({ openLogin, openSignUp, currentUser }) {
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            alert("Logged out successfully.");
+        } catch (error) {
+            console.error("Logout error:", error.message);
+        }
+    };
+
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Good morning";
+        if (hour < 18) return "Good afternoon";
+        return "Good evening";
+    };
+
+    const getDisplayName = () => {
+        if (!currentUser) return "";
+        return currentUser.displayName || currentUser.email.split("@")[0];
+    };
+
     return (
         <div className="navigation">
             <nav className="navbar navbar-expand-lg">
                 <div className="container-fluid d-flex align-items-center ms-3">
                     <Link className="navbar-brand" to="/">
-                    <img src={logo} alt="Logo" width={50} />
+                        <img src={logo} alt="Logo" width={50} />
                     </Link>
                     <h1 className="mb-0 me-3">RIDESMART PH</h1>
                     <button type="button" className="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,28 +42,34 @@ function NavBar({ openLogin, openSignUp }) {
 
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                        <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
-                        </li>
-                        {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                                    <li><hr className="dropdown-divider" /></li>
-                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li> */}
                             <li className="nav-item">
-                                <Link className="nav-link" to="/About">About</Link>
+                                <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/about">About</Link>
                             </li>
                         </ul>
 
                         <div id="buttons" className="ms-auto d-flex align-items-center">
-                            <button className="login-btn me-2" onClick={openLogin}>Log In</button>
-                            <button className="signup-btn" onClick={openSignUp}>Sign Up</button>
+                            {currentUser ? (
+                                <>
+                                    <span className="nav-link me-3">
+                                        {getGreeting()}, {getDisplayName()}!
+                                    </span>
+                                    <img 
+                                        src={logoutIcon} 
+                                        alt="Logout" 
+                                        onClick={handleLogout} 
+                                        className="logout-icon" 
+                                        style={{ width: "30px", height: "30px", cursor: "pointer" }}
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <button className="login-btn me-2" onClick={openLogin}>Log In</button>
+                                    <button className="signup-btn" onClick={openSignUp}>Sign Up</button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
