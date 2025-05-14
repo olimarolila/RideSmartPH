@@ -9,6 +9,7 @@ import loadingGif from './assets/images/motor.gif';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
+import MDashboard from "./components/MDashboard";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -51,6 +52,8 @@ function App() {
                 } />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/maintenance-dashboard" element={<MDashboard />} />
+
                 </Routes>
                 <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
                 <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />

@@ -2,14 +2,16 @@ import '../css/Info.css';
 import scheduleIcon from '../assets/images/schedule.png';
 import remindersIcon from '../assets/images/shopping-list.png';
 import ecoIcon from '../assets/images/eco-bulb.png';
+import { Link } from "react-router-dom";
+
 
 function Info() {
     return (
         <div className="container">
             <div className="mainBox">
-                {/* Box 1: Maintenance Dashboard */}
-
-                    <div className="info-box">
+                 {/* Box 1: Maintenance Dashboard */}
+                <Link to="/maintenance-dashboard" className="info-box-link">
+                    <div className="info-box hoverable">
                         <div>
                             <div className="d-flex align-items-center mb-2">
                                 <img src={scheduleIcon} alt="Schedule Icon" className="info-icon-title" />
@@ -20,6 +22,7 @@ function Info() {
                             </p>
                         </div>
                     </div>
+                </Link>
 
 
                 {/* Box 2: Automated Reminders */}
