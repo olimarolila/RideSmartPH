@@ -1,29 +1,41 @@
 import { useState } from 'react';
 import '../css/LoginModal.css';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../firebase'; // ✅ import auth and provider
 
 function LoginModal({ show, onClose, onSwitch }) {
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-
+    const handleLogin = async () => {
         if (!email || !password) {
             alert('Please enter both email and password.');
             return;
         }
 
-        if (!storedUser) {
-            alert('No registered account found. Please sign up first.');
-            return;
-        }
-
-        if (email === storedUser.email && password === storedUser.password) {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
             alert('Login successful!');
-            onClose(); 
-        } else {
-            alert('Invalid email or password.');
+            onClose();
+        } catch (error) {
+            if (error.code === 'auth/user-not-found') {
+                alert('No account found with this email.');
+            } else if (error.code === 'auth/wrong-password') {
+                alert('Incorrect password.');
+            } else {
+                alert(`Login failed: ${error.message}`);
+            }
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+            alert('Google login successful!');
+            onClose();
+        } catch (error) {
+            alert(`Google login failed: ${error.message}`);
         }
     };
 
@@ -66,7 +78,13 @@ function LoginModal({ show, onClose, onSwitch }) {
                             </button>
                         </div>
 
-                        <button className="btn btn-success w-100" onClick={handleLogin}>Login</button>
+                        <button className="btn btn-success w-100 mb-2" onClick={handleLogin}>Login</button>
+
+                        <div className="text-center mb-2">or</div>
+
+                        <button className="btn btn-outline-dark w-100" onClick={handleGoogleLogin}>
+                            <i className="bi bi-google me-2"></i> Sign in with Google
+                        </button>
 
                         <p className="mt-3 text-center">
                             Don't have an account? <span style={{ color: '#133D1E', cursor: 'pointer' }} onClick={onSwitch}>Sign Up</span>
