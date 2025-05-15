@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase"; // Make sure this points correctly
+import { auth } from "./firebase";
 
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
@@ -12,6 +12,7 @@ import SignUpModal from "./components/SignUpModal";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
 import MDashboard from "./components/MDashboard";
+import Tips from "./components/Tips"; // ✅ Import Tips component
 
 import loadingGif from './assets/images/motor.gif';
 
@@ -21,7 +22,6 @@ function App() {
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
 
-    // Simulated loading effect
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
@@ -29,7 +29,6 @@ function App() {
         return () => clearTimeout(timer);
     }, []);
 
-    // Firebase auth listener
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
@@ -71,6 +70,7 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/maintenance-dashboard" element={<MDashboard />} />
+                    <Route path="/tips" element={<Tips />} /> {/* ✅ Added tips route */}
                 </Routes>
 
                 <LoginModal 
