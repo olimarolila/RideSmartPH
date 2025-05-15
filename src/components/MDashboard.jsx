@@ -206,7 +206,7 @@ function MDashboard() {
       </form>
 
       <div className="button-row">
-        <button onClick={clearAll} className="clear-button">🧹 Clear All</button>
+        <button onClick={clearAll} className="clear-button">Clear All</button>
         {/* <button onClick={() => window.print()} className="print-button">🖨️ Print</button> */}
       </div>
 

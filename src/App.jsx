@@ -1,26 +1,40 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase"; // Make sure this points correctly
+
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import Info from "./components/Info";
 import Footer from "./components/Footer";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
-import loadingGif from './assets/images/motor.gif';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
 import MDashboard from "./components/MDashboard";
+
+import loadingGif from './assets/images/motor.gif';
 
 function App() {
     const [loading, setLoading] = useState(true);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
+    // Simulated loading effect
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
         }, 2000);
         return () => clearTimeout(timer);
+    }, []);
+
+    // Firebase auth listener
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user);
+        });
+        return () => unsubscribe();
     }, []);
 
     const openLogin = () => {
@@ -41,29 +55,40 @@ function App() {
     return (
         <Router>
             <div>
-                <NavBar openLogin={openLogin} openSignUp={openSignUp} />
+                <NavBar 
+                    openLogin={openLogin} 
+                    openSignUp={openSignUp} 
+                    currentUser={currentUser} 
+                />
 
                 <Routes>
-                <Route path="/" element={
-                    <>
-                    <Header openLogin={openLogin} />
-                    <Info />
-                    </>
-                } />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/maintenance-dashboard" element={<MDashboard />} />
-
+                    <Route path="/" element={
+                        <>
+                            <Header openLogin={openLogin} />
+                            <Info />
+                        </>
+                    } />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/maintenance-dashboard" element={<MDashboard />} />
                 </Routes>
-                <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
-                <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
+
+                <LoginModal 
+                    show={showLoginModal} 
+                    onClose={closeModals} 
+                    onSwitch={openSignUp} 
+                />
+                <SignUpModal 
+                    show={showSignUpModal} 
+                    onClose={closeModals} 
+                    onSwitch={openLogin} 
+                />
 
                 {loading && (
-                <div className="loading-screen">
-                    <img src={loadingGif} alt="Loading..." className="loading-motor" />
-                </div>
+                    <div className="loading-screen">
+                        <img src={loadingGif} alt="Loading..." className="loading-motor" />
+                    </div>
                 )}
-
             </div>
         </Router>
     );

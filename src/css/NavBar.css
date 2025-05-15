@@ -79,3 +79,11 @@ nav .dropdown-item:hover, nav .dropdown-item:focus {
     color: #133D1E;
     border: 2px solid white;
 }
+
+.navbar-nav .nav-item {
+    margin-right: 1.5rem; /* Adjust spacing as needed */
+}
+
+.navbar-nav .nav-item:last-child {
+    margin-right: 0; /* Optional: remove spacing after the last item */
+}
