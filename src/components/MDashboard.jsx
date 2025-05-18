@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../css/MDashboard.css";
 import { auth, db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MDashboard() {
   const [maintenanceData, setMaintenanceData] = useState({
@@ -13,12 +15,11 @@ function MDashboard() {
   const [currentMileage, setCurrentMileage] = useState("");
   const [userId, setUserId] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [successMessage, setSuccessMessage] = useState("");
 
-  // Load user and data from Firestore
+  const mileageWarningShown = useRef(false); // ✅ Flag to avoid repeat toasts
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log("🔑 Auth state changed. User:", user);
       if (user) {
         setUserId(user.uid);
         try {
@@ -26,19 +27,16 @@ function MDashboard() {
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log("📥 Loaded from Firestore:", data);
             setMaintenanceData(data.maintenanceData || {});
             setCurrentMileage(data.currentMileage || "");
-          } else {
-            console.log("ℹ️ No data found for user in Firestore.");
           }
         } catch (error) {
-          console.error("❌ Error loading data from Firestore:", error);
+          toast.error("❌ Error loading data.");
+          console.error("Error loading data:", error);
         } finally {
           setIsInitialLoad(false);
         }
       } else {
-        console.warn("⚠️ No user is logged in.");
         setIsInitialLoad(false);
       }
     });
@@ -46,7 +44,6 @@ function MDashboard() {
     return () => unsubscribe();
   }, []);
 
-  // 🔘 Manual save to Firestore when Save button is clicked
   const handleSave = async () => {
     if (!userId || isInitialLoad) return;
 
@@ -55,15 +52,19 @@ function MDashboard() {
         maintenanceData,
         currentMileage,
       };
-      console.log("📤 Saving to Firestore:", payload);
       await setDoc(doc(db, "maintenanceLogs", userId), payload);
-      console.log("✅ Data saved successfully to Firestore.");
 
-      // ✅ Show success message
-      setSuccessMessage("✅ Saved successfully!");
-      setTimeout(() => setSuccessMessage(""), 3000); // Auto-hide after 3s
+      toast.success("Saved successfully!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } catch (error) {
-      console.error("❌ Error saving data to Firestore:", error);
+      toast.error("Failed to save!");
+      console.error("Save error:", error);
     }
   };
 
@@ -119,17 +120,27 @@ function MDashboard() {
     const strokeDasharray = `${percent} ${100 - percent}`;
     const color = getMileageColor(value);
 
+    // ✅ Trigger mileage warning toast once
+    if (value >= 4000 && value < 5000 && !mileageWarningShown.current) {
+      mileageWarningShown.current = true;
+      toast.warning("⚠️ You're nearing 5000km. Prepare for oil change!", {
+        position: "top-right",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+
+    if (value < 4000 && mileageWarningShown.current) {
+      mileageWarningShown.current = false;
+    }
+
     return (
       <div className="mileage-arc">
         <svg width="100" height="100" viewBox="0 0 36 36">
-          <circle
-            cx="18"
-            cy="18"
-            r="16"
-            fill="none"
-            stroke="#eee"
-            strokeWidth="3"
-          />
+          <circle cx="18" cy="18" r="16" fill="none" stroke="#eee" strokeWidth="3" />
           <circle
             cx="18"
             cy="18"
@@ -199,11 +210,10 @@ function MDashboard() {
           maintenanceData: {},
           currentMileage: "",
         });
-        console.log("🧹 Cleared data in Firestore.");
-        setSuccessMessage("🧹 Data cleared.");
-        setTimeout(() => setSuccessMessage(""), 3000);
+        toast.info("Data cleared.");
       } catch (error) {
-        console.error("❌ Error clearing Firestore data:", error);
+        toast.error("❌ Failed to clear.");
+        console.error("Clear error:", error);
       }
     }
   };
@@ -214,10 +224,6 @@ function MDashboard() {
       <p className="dashboard-subtitle">
         Enter your last maintenance and mileage to track your schedule.
       </p>
-
-      {successMessage && (
-        <div className="success-message">{successMessage}</div>
-      )}
 
       <form className="maintenance-form">
         <label>
@@ -260,8 +266,8 @@ function MDashboard() {
       </form>
 
       <div className="button-row">
-        <button onClick={handleSave} className="save-button">💾 Save</button>
-        <button onClick={clearAll} className="clear-button">🧹 Clear All</button>
+        <button type="button" onClick={handleSave} className="save-button">💾 Save</button>
+        <button type="button" onClick={clearAll} className="clear-button">🧹 Clear All</button>
       </div>
 
       <div className="schedule-list">
@@ -269,6 +275,8 @@ function MDashboard() {
         {renderTask("Engine Maintenance", "engineMaintenance", 6)}
         {renderTask("Tire Check", "tireCheck", 2)}
       </div>
+
+      <ToastContainer />
     </div>
   );
 }
