@@ -1,15 +1,67 @@
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import '../css/Motor.css';
-
 
 function MotorcycleSpecs() {
   const [motorcycles, setMotorcycles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [brand, setBrand] = useState("Yamaha");
   const [savedBikes, setSavedBikes] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
+  // Get authenticated user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      if (user) loadSavedBikes(user.uid);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Load saved bikes for this user
+  const loadSavedBikes = async (uid) => {
+    try {
+      const snapshot = await getDocs(collection(db, `users/${uid}/saved_motorcycles`));
+      const saved = snapshot.docs.map(doc => doc.data());
+      setSavedBikes(saved);
+    } catch (error) {
+      console.error("Error loading saved motorcycles:", error);
+    }
+  };
+
+  const isSaved = (bike) => {
+    return savedBikes.some(
+      (b) =>
+        b.make === bike.make &&
+        b.model === bike.model &&
+        b.year === bike.year &&
+        b.engine === bike.engine
+    );
+  };
+
+  const handleSave = async (bike) => {
+    if (!currentUser) {
+      alert("Please log in to save.");
+      return;
+    }
+
+    if (isSaved(bike)) {
+      alert("Already saved!");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, `users/${currentUser.uid}/saved_motorcycles`), bike);
+      setSavedBikes((prev) => [...prev, bike]);
+    } catch (error) {
+      console.error("Error saving motorcycle:", error);
+      alert("Failed to save. Please try again.");
+    }
+  };
+
+  // Fetch motorcycle data
   useEffect(() => {
     const fetchMotorcycles = async () => {
       setLoading(true);
@@ -33,45 +85,6 @@ function MotorcycleSpecs() {
 
     fetchMotorcycles();
   }, [brand]);
-
-  useEffect(() => {
-    const loadSavedBikes = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, "saved_motorcycles"));
-        const saved = snapshot.docs.map(doc => doc.data());
-        setSavedBikes(saved);
-      } catch (error) {
-        console.error("Error loading saved motorcycles:", error);
-      }
-    };
-
-    loadSavedBikes();
-  }, []);
-
-  const isSaved = (bike) => {
-    return savedBikes.some(
-      (b) =>
-        b.make === bike.make &&
-        b.model === bike.model &&
-        b.year === bike.year &&
-        b.engine === bike.engine
-    );
-  };
-
-  const handleSave = async (bike) => {
-    if (isSaved(bike)) {
-      alert("Already saved!");
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, "saved_motorcycles"), bike);
-      setSavedBikes((prev) => [...prev, bike]);
-    } catch (error) {
-      console.error("Error saving motorcycle:", error);
-      alert("Failed to save. Please try again.");
-    }
-  };
 
   return (
     <div className="container motorcycle-container">
