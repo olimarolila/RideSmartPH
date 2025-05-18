@@ -1,10 +1,9 @@
-/* Page background */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     background-color: #eff0e5;
-    background-image: url('../assets/images/tips-bg-placeholder.jpg'); /* replace if needed */
+    background-image: url('../assets/images/light_bg.svg'); /* replace if needed */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
