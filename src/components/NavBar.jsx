@@ -24,9 +24,11 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
     };
 
     const getDisplayName = () => {
-        if (!currentUser) return "";
-        return currentUser.displayName || currentUser.email.split("@")[0];
-    };
+    if (!currentUser) return "";
+    const name = currentUser.displayName || currentUser.email.split("@")[0];
+    return name.split(" ")[0]; // only the first word (first name)
+};
+
 
     return (
         <div className="navigation">
@@ -49,10 +51,10 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
             <Link className="nav-link" to="/motorcycles">Motorcycles</Link>
         </li>
         <li className="nav-item">
-            <Link className="nav-link" to="/schedule">Maintenance Schedule</Link>
+            <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
         </li>
         <li className="nav-item">
-            <Link className="nav-link" to="/log">Maintenance Log</Link>
+            <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
         </li>
         <li className="nav-item">
             <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>

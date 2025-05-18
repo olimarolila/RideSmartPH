@@ -12,7 +12,12 @@ import SignUpModal from "./components/SignUpModal";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
 import MDashboard from "./components/MDashboard";
+<<<<<<< HEAD
 import Tips from "./components/Tips"; // ✅ Import Tips component
+=======
+import MaintenanceLogs from "./components/MaintenanceLogs"; // adjust path if needed
+
+>>>>>>> 1342d9034355bc1e96062c7490f72f2a1e6bd2c6
 
 import loadingGif from './assets/images/motor.gif';
 
@@ -70,7 +75,12 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/maintenance-dashboard" element={<MDashboard />} />
+<<<<<<< HEAD
                     <Route path="/tips" element={<Tips />} /> {/* ✅ Added tips route */}
+=======
+                    <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
+
+>>>>>>> 1342d9034355bc1e96062c7490f72f2a1e6bd2c6
                 </Routes>
 
                 <LoginModal 
