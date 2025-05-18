@@ -1,6 +1,6 @@
 // src/firebase.js
-import { initializeApp } from "firebase/app";import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider } from "fiimport { getFirestore } from "firebase/firestore"; // ✅ Add Firestore
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider } from "firebase/auth"; // ✅ Add GoogleAuthProvider
 import { getFirestore } from "firebase/firestore";
 
@@ -21,4 +21,3 @@ const googleProvider = new GoogleAuthProvider();
 const db = getFirestore(app); // ✅ Create Firestore instance
 
 export { app, analytics, auth, googleProvider, db }; // ✅ Export db
-
