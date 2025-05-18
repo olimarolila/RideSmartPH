@@ -12,6 +12,8 @@ import SignUpModal from "./components/SignUpModal";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
 import MDashboard from "./components/MDashboard";
+import MaintenanceLogs from "./components/MaintenanceLogs"; // adjust path if needed
+
 
 import loadingGif from './assets/images/motor.gif';
 
@@ -71,6 +73,8 @@ function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/maintenance-dashboard" element={<MDashboard />} />
+                    <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
+
                 </Routes>
 
                 <LoginModal 
