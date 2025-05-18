@@ -1,0 +1,82 @@
+/* Page background */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #eff0e5;
+    background-image: url('../assets/images/tips-bg-placeholder.jpg'); /* replace if needed */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Container for the tips section */
+.tips-container {
+    margin-top: 8rem;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Responsive grid layout for tip cards */
+.tips-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+}
+
+/* Individual tip card */
+.tip-card {
+    background-color: #f9fdf9;
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 360px;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icon and title row */
+.tip-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+/* Icon image */
+.tip-icon {
+    height: 48px;
+    width: 48px;
+    margin-right: 1rem;
+    object-fit: contain;
+}
+
+/* Title styling */
+.tip-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #153e2b;
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Tip description */
+.tip-description {
+    font-size: 1rem;
+    color: #222;
+    text-align: justify;
+    margin: 0;
+    line-height: 1.5;
+}

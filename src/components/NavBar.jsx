@@ -43,29 +43,29 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarNav">
-    <ul className="navbar-nav">
-        <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">Dashboard</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/motorcycles">Motorcycles</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/tips">Tips</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/about">About</Link>
-        </li>
-    </ul>
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/motorcycles">Motorcycles</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/tips">Tips</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/about">About</Link>
+                            </li>
+                        </ul>
 
                         <div id="buttons" className="ms-auto d-flex align-items-center">
                             {currentUser ? (
