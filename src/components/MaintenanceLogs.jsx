@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
 import {
-  collection, getDocs, query,
-  orderBy, where
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  where,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../css/MaintenanceLogs.css"; // Ensure path is correct
 
 function MaintenanceHistory() {
   const [history, setHistory] = useState([]);
@@ -28,11 +36,10 @@ function MaintenanceHistory() {
     const historyRef = collection(db, "maintenanceLogs", userId, "history");
     let q = query(historyRef, orderBy("savedAt", "desc"));
 
-    // ✅ Apply date filters if provided
     if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999); // include full end day
+      end.setHours(23, 59, 59, 999);
 
       q = query(
         historyRef,
@@ -50,6 +57,29 @@ function MaintenanceHistory() {
     setHistory(data);
   };
 
+  const clearHistory = async () => {
+    if (!userId) return;
+
+    const confirmClear = window.confirm("Are you sure you want to clear all history?");
+    if (!confirmClear) return;
+
+    try {
+      const historyRef = collection(db, "maintenanceLogs", userId, "history");
+      const snapshot = await getDocs(historyRef);
+
+      const deletePromises = snapshot.docs.map((docSnap) =>
+        deleteDoc(doc(db, "maintenanceLogs", userId, "history", docSnap.id))
+      );
+
+      await Promise.all(deletePromises);
+      setHistory([]);
+      toast.success("Maintenance history cleared successfully! 🗑️");
+    } catch (error) {
+      console.error("Error clearing history:", error);
+      toast.error("Failed to clear history. Please try again.");
+    }
+  };
+
   const formatDate = (timestamp) => {
     if (!timestamp?.toDate) return "Unknown";
     return timestamp.toDate().toLocaleString();
@@ -60,8 +90,7 @@ function MaintenanceHistory() {
       <h2 className="dashboard-title">📜 Maintenance History</h2>
       <p className="dashboard-subtitle">Search or filter by date range.</p>
 
-      {/* ✅ Filter Form */}
-      <div className="maintenance-form" style={{ marginBottom: "1rem" }}>
+      <div className="maintenance-form">
         <label>
           From:
           <input
@@ -78,9 +107,14 @@ function MaintenanceHistory() {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-        <button type="button" onClick={fetchHistory} className="save-button">
-          🔍 Filter
-        </button>
+        <div className="button-group">
+          <button onClick={fetchHistory} className="action-button">
+            🔍 Filter
+          </button>
+          <button onClick={clearHistory} className="action-button clear-button">
+            🗑️ Clear History
+          </button>
+        </div>
       </div>
 
       {history.length === 0 ? (
@@ -88,7 +122,7 @@ function MaintenanceHistory() {
       ) : (
         <div className="schedule-list">
           {history.map((entry) => (
-            <div key={entry.id} className="schedule-card card-default">
+            <div key={entry.id} className="schedule-card">
               <p><strong>Date Saved:</strong> {formatDate(entry.savedAt)}</p>
               <p><strong>Change Oil:</strong> {entry.maintenanceData?.changeOil || "N/A"}</p>
               <p><strong>Engine Maintenance:</strong> {entry.maintenanceData?.engineMaintenance || "N/A"}</p>
@@ -98,6 +132,8 @@ function MaintenanceHistory() {
           ))}
         </div>
       )}
+
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 }
