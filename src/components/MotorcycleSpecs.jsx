@@ -3,6 +3,10 @@ import { db, auth } from "../firebase";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import '../css/Motor.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { deleteDoc, doc } from "firebase/firestore"; // 🔺 Add to imports
+
 
 function MotorcycleSpecs() {
   const [motorcycles, setMotorcycles] = useState([]);
@@ -10,8 +14,9 @@ function MotorcycleSpecs() {
   const [brand, setBrand] = useState("Yamaha");
   const [savedBikes, setSavedBikes] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [selectedBike, setSelectedBike] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
-  // Get authenticated user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
@@ -20,11 +25,10 @@ function MotorcycleSpecs() {
     return () => unsubscribe();
   }, []);
 
-  // Load saved bikes for this user
   const loadSavedBikes = async (uid) => {
     try {
       const snapshot = await getDocs(collection(db, `users/${uid}/saved_motorcycles`));
-      const saved = snapshot.docs.map(doc => doc.data());
+      const saved = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setSavedBikes(saved);
     } catch (error) {
       console.error("Error loading saved motorcycles:", error);
@@ -42,26 +46,68 @@ function MotorcycleSpecs() {
   };
 
   const handleSave = async (bike) => {
-    if (!currentUser) {
-      alert("Please log in to save.");
-      return;
-    }
+  if (!currentUser) {
+    toast.warn("Please log in to save a bookmark.");
+    return;
+  }
 
-    if (isSaved(bike)) {
-      alert("Already saved!");
-      return;
-    }
+  if (isSaved(bike)) {
+    toast.info("Already bookmarked.");
+    return;
+  }
 
-    try {
-      await addDoc(collection(db, `users/${currentUser.uid}/saved_motorcycles`), bike);
-      setSavedBikes((prev) => [...prev, bike]);
-    } catch (error) {
-      console.error("Error saving motorcycle:", error);
-      alert("Failed to save. Please try again.");
-    }
+  try {
+    await addDoc(collection(db, `users/${currentUser.uid}/saved_motorcycles`), bike);
+    setSavedBikes((prev) => [...prev, bike]);
+    toast.success(`${bike.make} ${bike.model} bookmarked!`);
+  } catch (error) {
+    console.error("Error saving motorcycle:", error);
+    toast.error("Failed to save. Please try again.");
+  }
+};
+
+const handleRemove = async (bike) => {
+  try {
+    const match = savedBikes.find(
+      (b) =>
+        b.make === bike.make &&
+        b.model === bike.model &&
+        b.year === bike.year &&
+        b.engine === bike.engine
+    );
+
+    if (!match) return;
+
+    await deleteDoc(doc(db, `users/${currentUser.uid}/saved_motorcycles/${match.id}`));
+
+    setSavedBikes((prev) =>
+      prev.filter(
+        (b) =>
+          !(b.make === bike.make &&
+            b.model === bike.model &&
+            b.year === bike.year &&
+            b.engine === bike.engine)
+      )
+    );
+
+    toast.info(`${bike.make} ${bike.model} removed from bookmarks.`);
+  } catch (error) {
+    console.error("Error removing motorcycle:", error);
+    toast.error("Failed to remove bookmark.");
+  }
+};
+
+
+  const handleCardClick = (bike) => {
+    setSelectedBike(bike);
+    setShowModal(true);
   };
 
-  // Fetch motorcycle data
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedBike(null);
+  };
+
   useEffect(() => {
     const fetchMotorcycles = async () => {
       setLoading(true);
@@ -88,6 +134,7 @@ function MotorcycleSpecs() {
 
   return (
     <div className="container motorcycle-container">
+      <img src="src/assets/images/MotorMan.PNG" alt="" height={400} />
       <h2>Motorcycle Specs for "{brand}"</h2>
 
       <input
@@ -98,31 +145,88 @@ function MotorcycleSpecs() {
         className="form-control motorcycle-input"
       />
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : motorcycles.length > 0 ? (
-        motorcycles.map((bike, index) => {
-          const saved = isSaved(bike);
+      <div className="row mt-4">
+        {/* Left: Motorcycle Search Results */}
+        <div className="col-md-8">
+          {loading ? (
+            <p>Loading...</p>
+          ) : motorcycles.length > 0 ? (
+            motorcycles.map((bike, index) => {
+              const saved = isSaved(bike);
+              return (
+                <div key={index} className="card motorcycle-card" onClick={() => handleCardClick(bike)}>
+                  <i
+                  className={`bi ${saved ? "bi-bookmark-fill" : "bi-bookmark"} bookmark-icon ${saved ? "saved" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    saved ? handleRemove(bike) : handleSave(bike);
+                  }}
+                  title={saved ? "Remove bookmark" : "Save to bookmarks"}
+                ></i>
 
-          return (
-            <div key={index} className="card motorcycle-card">
-              <i
-                className={`bi ${saved ? "bi-bookmark-fill" : "bi-bookmark"} bookmark-icon ${saved ? "saved" : ""}`}
-                onClick={() => !saved && handleSave(bike)}
-                title={saved ? "Saved" : "Save to Firebase"}
-              ></i>
-              <h4>{bike.make} {bike.model}</h4>
-              <p><strong>Year:</strong> {bike.year}</p>
-              <p><strong>Engine:</strong> {bike.engine}</p>
-              <p><strong>Type:</strong> {bike.type}</p>
-            </div>
-          );
-        })
-      ) : (
-        <p>No motorcycles found for "{brand}"</p>
+                  <h4>{bike.make} {bike.model}</h4>
+                  <p><strong>Year:</strong> {bike.year}</p>
+                  <p><strong>Engine:</strong> {bike.engine}</p>
+                  <p><strong>Type:</strong> {bike.type}</p>
+                </div>
+              );
+            })
+          ) : (
+            <p>No motorcycles found for "{brand}"</p>
+          )}
+        </div>
+
+        {/* Right: Bookmarked Bikes */}
+        <div className="col-md-4">
+          <h4>Bookmarked Models</h4>
+          {savedBikes.length > 0 ? (
+            savedBikes.map((bike, index) => (
+              <div key={index} className="card motorcycle-card bookmarked">
+                <div className="d-flex justify-content-between align-items-start">
+                  <div onClick={() => handleCardClick(bike)} style={{ cursor: 'pointer' }}>
+                    <h5 className="mb-1">{bike.make} {bike.model}</h5>
+                    <p className="mb-0"><strong>Year:</strong> {bike.year}</p>
+                  </div>
+                  <i
+                    className="bi bi-x-circle text-danger ms-2"
+                    style={{ fontSize: '1.2rem', cursor: 'pointer' }}
+                    title="Remove bookmark"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRemove(bike);
+                    }}
+                  ></i>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-muted">No bookmarks yet</p>
+          )}
+
+        </div>
+      </div>
+
+      {/* Modal */}
+      {showModal && selectedBike && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={closeModal}>×</button>
+            <h3>{selectedBike.make} {selectedBike.model}</h3>
+            <p><strong>Year:</strong> {selectedBike.year || "N/A"}</p>
+            <p><strong>Engine:</strong> {selectedBike.engine || "N/A"}</p>
+            <p><strong>Type:</strong> {selectedBike.type || "N/A"}</p>
+            <p><strong>Displacement:</strong> {selectedBike.displacement || "N/A"}</p>
+            <p><strong>Power:</strong> {selectedBike.power || "N/A"}</p>
+            <p><strong>Torque:</strong> {selectedBike.torque || "N/A"}</p>
+            <p><strong>Top Speed:</strong> {selectedBike.top_speed || "N/A"}</p>
+            <p><strong>Fuel Capacity:</strong> {selectedBike.fuel_capacity || "N/A"}</p>
+          </div>
+        </div>
       )}
+    <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }
+
 
 export default MotorcycleSpecs;

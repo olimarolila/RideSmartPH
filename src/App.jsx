@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
 import About from "./pages/About"; 
-import Dashboard from "./pages/Dashboard"; 
+import Motorcycles from "./pages/Motorcycles"; 
 import MDashboard from "./components/MDashboard";
 import MaintenanceLogs from "./components/MaintenanceLogs";
 
@@ -70,7 +70,7 @@ function App() {
                             <Info />
                         </>
                     } />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/motorcycles" element={<Motorcycles />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/maintenance-dashboard" element={<MDashboard />} />
                     <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
