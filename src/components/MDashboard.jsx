@@ -1,9 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import "../css/MDashboard.css";
 import { auth, db } from "../firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 function MDashboard() {
   const [maintenanceData, setMaintenanceData] = useState({
@@ -15,27 +23,31 @@ function MDashboard() {
   const [currentMileage, setCurrentMileage] = useState("");
   const [userId, setUserId] = useState(null);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const mileageWarningShown = useRef(false);
 
-  const mileageWarningShown = useRef(false); // ✅ Flag to avoid repeat toasts
-
+  // ✅ Load user and dashboard data safely
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);
-        try {
-          const docRef = doc(db, "maintenanceLogs", user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setMaintenanceData(data.maintenanceData || {});
-            setCurrentMileage(data.currentMileage || "");
+
+        const fetchData = async () => {
+          try {
+            const docRef = doc(db, "maintenanceLogs", user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              setMaintenanceData(data.maintenanceData || {});
+              setCurrentMileage(data.currentMileage || "");
+            }
+          } catch (error) {
+            toast.error("❌ Failed to load data.");
+          } finally {
+            setIsInitialLoad(false);
           }
-        } catch (error) {
-          toast.error("❌ Error loading data.");
-          console.error("Error loading data:", error);
-        } finally {
-          setIsInitialLoad(false);
-        }
+        };
+
+        fetchData();
       } else {
         setIsInitialLoad(false);
       }
@@ -44,6 +56,21 @@ function MDashboard() {
     return () => unsubscribe();
   }, []);
 
+  // ✅ Show toast warning when nearing 5000km
+  useEffect(() => {
+    const value = Number(currentMileage);
+
+    if (value >= 4000 && value < 5000 && !mileageWarningShown.current) {
+      toast.warning("⚠️ You're nearing 5000km. Prepare for oil change!");
+      mileageWarningShown.current = true;
+    }
+
+    if (value < 4000 && mileageWarningShown.current) {
+      mileageWarningShown.current = false;
+    }
+  }, [currentMileage]);
+
+  // ✅ Save data and log to history
   const handleSave = async () => {
     if (!userId || isInitialLoad) return;
 
@@ -52,18 +79,17 @@ function MDashboard() {
         maintenanceData,
         currentMileage,
       };
+
       await setDoc(doc(db, "maintenanceLogs", userId), payload);
 
-      toast.success("Saved successfully!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
+      await addDoc(collection(db, "maintenanceLogs", userId, "history"), {
+        ...payload,
+        savedAt: serverTimestamp(),
       });
+
+      toast.success("✅ Saved successfully!");
     } catch (error) {
-      toast.error("Failed to save!");
+      toast.error("❌ Failed to save.");
       console.error("Save error:", error);
     }
   };
@@ -87,9 +113,7 @@ function MDashboard() {
   };
 
   const isOverdue = (nextDate) => {
-    if (!nextDate) return false;
-    const today = new Date();
-    return nextDate < today;
+    return nextDate && nextDate < new Date();
   };
 
   const getCardClass = (nextDate) => {
@@ -99,13 +123,6 @@ function MDashboard() {
     if (diff < 0) return "card-red";
     if (diff < 7) return "card-yellow";
     return "card-green";
-  };
-
-  const getDaysRemaining = (nextDate) => {
-    if (!nextDate) return "N/A";
-    const today = new Date();
-    const diff = Math.ceil((nextDate - today) / (1000 * 60 * 60 * 24));
-    return diff < 0 ? "Overdue" : `${diff} day(s) remaining`;
   };
 
   const getMileageColor = (value) => {
@@ -119,23 +136,6 @@ function MDashboard() {
     const percent = Math.min((value / 5000) * 100, 100);
     const strokeDasharray = `${percent} ${100 - percent}`;
     const color = getMileageColor(value);
-
-    // ✅ Trigger mileage warning toast once
-    if (value >= 4000 && value < 5000 && !mileageWarningShown.current) {
-      mileageWarningShown.current = true;
-      toast.warning("⚠️ You're nearing 5000km. Prepare for oil change!", {
-        position: "top-right",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
-    }
-
-    if (value < 4000 && mileageWarningShown.current) {
-      mileageWarningShown.current = false;
-    }
 
     return (
       <div className="mileage-arc">
@@ -183,11 +183,10 @@ function MDashboard() {
             <p>Last: {lastDate || "Not Set"}</p>
             <p>
               Next: {nextDateString}
-              {nextDate && isOverdue(nextDate) && (
+              {isOverdue(nextDate) && (
                 <span className="overdue-warning"> 🔴 Overdue!</span>
               )}
             </p>
-            <p className="countdown">{nextDate ? getDaysRemaining(nextDate) : ""}</p>
           </div>
           {key === "changeOil" && currentMileage && (
             <div className="card-right">{renderMileageArc()}</div>
@@ -210,7 +209,7 @@ function MDashboard() {
           maintenanceData: {},
           currentMileage: "",
         });
-        toast.info("Data cleared.");
+        toast.info("🧹 Data cleared.");
       } catch (error) {
         toast.error("❌ Failed to clear.");
         console.error("Clear error:", error);
@@ -226,8 +225,7 @@ function MDashboard() {
       </p>
 
       <form className="maintenance-form">
-        <label>
-          Last Change Oil:
+        <label>Last Change Oil:
           <input
             type="date"
             name="changeOil"
@@ -235,8 +233,7 @@ function MDashboard() {
             onChange={handleChange}
           />
         </label>
-        <label>
-          Last Engine Maintenance:
+        <label>Last Engine Maintenance:
           <input
             type="date"
             name="engineMaintenance"
@@ -244,8 +241,7 @@ function MDashboard() {
             onChange={handleChange}
           />
         </label>
-        <label>
-          Last Tire Check:
+        <label>Last Tire Check:
           <input
             type="date"
             name="tireCheck"
@@ -253,14 +249,12 @@ function MDashboard() {
             onChange={handleChange}
           />
         </label>
-        <label>
-          Current Mileage (in km):
+        <label>Current Mileage (in km):
           <input
             type="number"
             name="currentMileage"
             value={currentMileage}
             onChange={handleMileageChange}
-            placeholder="Enter current mileage"
           />
         </label>
       </form>
@@ -268,6 +262,7 @@ function MDashboard() {
       <div className="button-row">
         <button type="button" onClick={handleSave} className="save-button">💾 Save</button>
         <button type="button" onClick={clearAll} className="clear-button">🧹 Clear All</button>
+        <Link to="/maintenance-logs" className="history-button">📜 View History</Link>
       </div>
 
       <div className="schedule-list">

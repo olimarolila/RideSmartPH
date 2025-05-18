@@ -1,1 +1,15 @@
-/*No Data*/
+.maintenance-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  gap: 4px;
+}
+
+.maintenance-form input[type="date"] {
+  font-size: 0.9rem;
+  padding: 6px 10px;
+}
+
+.maintenance-form button.save-button {
+  margin-top: 24px;
+}
