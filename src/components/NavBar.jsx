@@ -54,7 +54,7 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
             <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
         </li>
         <li className="nav-item">
-            <Link className="nav-link" to="/log">Maintenance Log</Link>
+            <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
         </li>
         <li className="nav-item">
             <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>
