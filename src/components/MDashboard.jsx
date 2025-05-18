@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/MDashboard.css";
+import { auth, db } from "../firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 function MDashboard() {
   const [maintenanceData, setMaintenanceData] = useState({
@@ -9,24 +11,61 @@ function MDashboard() {
   });
 
   const [currentMileage, setCurrentMileage] = useState("");
-  const [hasLoaded, setHasLoaded] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
 
+  // Load user and data from Firestore
   useEffect(() => {
-    const savedData = localStorage.getItem("maintenanceData");
-    const savedMileage = localStorage.getItem("currentMileage");
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      console.log("🔑 Auth state changed. User:", user);
+      if (user) {
+        setUserId(user.uid);
+        try {
+          const docRef = doc(db, "maintenanceLogs", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            console.log("📥 Loaded from Firestore:", data);
+            setMaintenanceData(data.maintenanceData || {});
+            setCurrentMileage(data.currentMileage || "");
+          } else {
+            console.log("ℹ️ No data found for user in Firestore.");
+          }
+        } catch (error) {
+          console.error("❌ Error loading data from Firestore:", error);
+        } finally {
+          setIsInitialLoad(false);
+        }
+      } else {
+        console.warn("⚠️ No user is logged in.");
+        setIsInitialLoad(false);
+      }
+    });
 
-    if (savedData) setMaintenanceData(JSON.parse(savedData));
-    if (savedMileage) setCurrentMileage(savedMileage);
-
-    setHasLoaded(true);
+    return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (hasLoaded) {
-      localStorage.setItem("maintenanceData", JSON.stringify(maintenanceData));
-      localStorage.setItem("currentMileage", currentMileage);
+  // 🔘 Manual save to Firestore when Save button is clicked
+  const handleSave = async () => {
+    if (!userId || isInitialLoad) return;
+
+    try {
+      const payload = {
+        maintenanceData,
+        currentMileage,
+      };
+      console.log("📤 Saving to Firestore:", payload);
+      await setDoc(doc(db, "maintenanceLogs", userId), payload);
+      console.log("✅ Data saved successfully to Firestore.");
+
+      // ✅ Show success message
+      setSuccessMessage("✅ Saved successfully!");
+      setTimeout(() => setSuccessMessage(""), 3000); // Auto-hide after 3s
+    } catch (error) {
+      console.error("❌ Error saving data to Firestore:", error);
     }
-  }, [maintenanceData, currentMileage, hasLoaded]);
+  };
 
   const handleChange = (e) => {
     setMaintenanceData({
@@ -147,15 +186,26 @@ function MDashboard() {
     );
   };
 
-  const clearAll = () => {
-    localStorage.removeItem("maintenanceData");
-    localStorage.removeItem("currentMileage");
+  const clearAll = async () => {
     setMaintenanceData({
       changeOil: "",
       engineMaintenance: "",
       tireCheck: "",
     });
     setCurrentMileage("");
+    if (userId) {
+      try {
+        await setDoc(doc(db, "maintenanceLogs", userId), {
+          maintenanceData: {},
+          currentMileage: "",
+        });
+        console.log("🧹 Cleared data in Firestore.");
+        setSuccessMessage("🧹 Data cleared.");
+        setTimeout(() => setSuccessMessage(""), 3000);
+      } catch (error) {
+        console.error("❌ Error clearing Firestore data:", error);
+      }
+    }
   };
 
   return (
@@ -164,6 +214,10 @@ function MDashboard() {
       <p className="dashboard-subtitle">
         Enter your last maintenance and mileage to track your schedule.
       </p>
+
+      {successMessage && (
+        <div className="success-message">{successMessage}</div>
+      )}
 
       <form className="maintenance-form">
         <label>
@@ -206,6 +260,7 @@ function MDashboard() {
       </form>
 
       <div className="button-row">
+        <button onClick={handleSave} className="save-button">💾 Save</button>
         <button onClick={clearAll} className="clear-button">🧹 Clear All</button>
       </div>
 
