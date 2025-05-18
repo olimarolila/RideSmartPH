@@ -95,7 +95,7 @@ function MDashboard() {
   };
 
   const handleChange = (e) => {
-    setMaintenanceData({
+    setMaintenanceData({  
       ...maintenanceData,
       [e.target.name]: e.target.value,
     });
