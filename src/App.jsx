@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase"; // Make sure this points correctly
+import { auth } from "./firebase";
 
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
@@ -12,7 +12,7 @@ import SignUpModal from "./components/SignUpModal";
 import About from "./pages/About"; 
 import Dashboard from "./pages/Dashboard"; 
 import MDashboard from "./components/MDashboard";
-import MaintenanceLogs from "./components/MaintenanceLogs"; // adjust path if needed
+import MaintenanceLogs from "./components/MaintenanceLogs";
 
 
 import loadingGif from './assets/images/motor.gif';
