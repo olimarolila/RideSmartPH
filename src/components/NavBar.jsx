@@ -24,9 +24,11 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
     };
 
     const getDisplayName = () => {
-        if (!currentUser) return "";
-        return currentUser.displayName || currentUser.email.split("@")[0];
-    };
+    if (!currentUser) return "";
+    const name = currentUser.displayName || currentUser.email.split("@")[0];
+    return name.split(" ")[0]; // only the first word (first name)
+};
+
 
     return (
         <div className="navigation">
