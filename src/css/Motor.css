@@ -1,11 +1,12 @@
 /* MotorcycleSpecs.css */
 
+
 .motorcycle-container {
-  margin-top: 1rem;
+  margin-top: 6rem;
 }
 
 .motorcycle-input {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
@@ -28,3 +29,90 @@
   color: #2b9445;
   cursor: default;
 }
+
+.bookmarked {
+  background-color: #edfdef;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.bookmarked:hover {
+  background-color: #e6f2ff;
+  transform: scale(1.01);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.motorcycle-card {
+  position: relative;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.motorcycle-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #f9f9f9;
+}
+
+.bookmarked .bi-x-circle:hover {
+  color: #dc3545;
+  transform: scale(1.2);
+  transition: 0.2s ease;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.page-btn {
+  background-color: #4E8E40;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-btn.active {
+  background-color: #133D1E;
+  font-weight: bold;
+}
+
+

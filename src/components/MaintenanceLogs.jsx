@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../firebase";
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  where,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs, query, orderBy, where, deleteDoc, doc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../css/MaintenanceLogs.css"; // Ensure path is correct
+import "../css/MaintenanceLogs.css";
 
 function MaintenanceHistory() {
   const [history, setHistory] = useState([]);
@@ -133,7 +125,7 @@ function MaintenanceHistory() {
         </div>
       )}
 
-      <ToastContainer position="top-center" autoClose={2000} />
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   );
 }

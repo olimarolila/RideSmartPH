@@ -1,5 +1,5 @@
 import '../css/NavBar.css';
-import logo from '../assets/images/MOTOR ISOLATED LOGO.png';
+import logo from '../assets/images/LOGO WITH TEXT.png';
 import logoutIcon from '../assets/images/logout.png'; // ✅ import the icon
 
 import { Link } from 'react-router-dom';
@@ -32,40 +32,44 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
 
     return (
         <div className="navigation">
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-xxl">
                 <div className="container-fluid d-flex align-items-center ms-3">
                     <Link className="navbar-brand" to="/">
-                        <img src={logo} alt="Logo" width={50} />
+                        <img src={logo} alt="Logo" width={280} />
                     </Link>
-                    <h1 className="mb-0 me-3">RIDESMART PH</h1>
                     <button type="button" className="navbar-toggler ms-auto" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
 
                     <div className="collapse navbar-collapse" id="navbarNav">
-    <ul className="navbar-nav">
-        <li className="nav-item">
-            <Link className="nav-link" to="/dashboard">Dashboard</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/motorcycles">Motorcycles</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/tips">Tips</Link>
-        </li>
-        <li className="nav-item">
-            <Link className="nav-link" to="/about">About</Link>
-        </li>
-    </ul>
+                    <ul className="navbar-nav">
+                    {currentUser && (
+                        <>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/motorcycles">Motorcycles</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/maintenance-dashboard">Maintenance Schedule</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/maintenance-logs">Maintenance Log</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/cost-tracker">Cost Tracker</Link>
+                        </li>
+                        </>
+                    )}
+
+                    {/* Always visible links */}
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/tips">Tips</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/about">About</Link>
+                    </li>
+                    </ul>
+
+
 
                         <div id="buttons" className="ms-auto d-flex align-items-center">
                             {currentUser ? (

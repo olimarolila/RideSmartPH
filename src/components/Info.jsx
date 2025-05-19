@@ -46,7 +46,7 @@ function Info() {
                         <div>
                             <div className="d-flex align-items-center mb-2">
                                 <img src={ecoIcon} alt="Eco Icon" className="info-icon-title" />
-                                <h6 className="info-title mb-0">Eco-Friendly Practices</h6>
+                                <h6 className="info-title mb-0">Eco-Friendly Tips</h6>
                             </div>
                             <p className="info-subtitle mb-0">
                                 Discover tips and resources to reduce emissions and improve fuel efficiency.

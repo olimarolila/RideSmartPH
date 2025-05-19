@@ -11,7 +11,7 @@ nav {
     justify-content: space-between;
     background-color: #123E1D;
     font-family: "Inter", sans-serif;
-    font-size: 1.25rem;
+    font-size: 1.1vw;
     font-weight: 600;
 }
 
@@ -81,9 +81,9 @@ nav .dropdown-item:hover, nav .dropdown-item:focus {
 }
 
 .navbar-nav .nav-item {
-    margin-right: 1.5rem; /* Adjust spacing as needed */
+    margin-right: 1.5rem; 
 }
 
 .navbar-nav .nav-item:last-child {
-    margin-right: 0; /* Optional: remove spacing after the last item */
+    margin-right: 0;
 }

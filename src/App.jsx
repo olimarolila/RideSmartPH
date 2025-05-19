@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
+// Components
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import Info from "./components/Info";
@@ -10,9 +11,11 @@ import Footer from "./components/Footer";
 import LoginModal from "./components/LoginModal";  
 import SignUpModal from "./components/SignUpModal"; 
 import About from "./pages/About"; 
-import Dashboard from "./pages/Dashboard"; 
+import Motorcycles from "./pages/Motorcycles"; 
 import MDashboard from "./components/MDashboard";
 import MaintenanceLogs from "./components/MaintenanceLogs";
+import Tips from "./components/Tips";
+
 
 
 import loadingGif from './assets/images/motor.gif';
@@ -70,10 +73,11 @@ function App() {
                             <Info />
                         </>
                     } />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/motorcycles" element={<Motorcycles />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/maintenance-dashboard" element={<MDashboard />} />
                     <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
+                    <Route path="/tips" element={<Tips />} />
 
                 </Routes>
 
