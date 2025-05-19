@@ -1,7 +1,18 @@
 import '../css/CostTracker.css';
 import { useEffect, useState } from "react";
 import { db, auth } from "../firebase";
-import { collection, addDoc, getDocs, serverTimestamp, query, orderBy, where, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  serverTimestamp,
+  query,
+  orderBy,
+  where,
+  deleteDoc,
+  doc,
+  updateDoc
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +25,8 @@ function CostTracker() {
   const [total, setTotal] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [groupedView, setGroupedView] = useState(false); // NEW
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -72,17 +85,28 @@ function CostTracker() {
     }
 
     try {
-      await addDoc(collection(db, "costTracker", userId, "expenses"), {
-        item,
-        price: parsedPrice,
-        timestamp: serverTimestamp(),
-      });
-      toast.success("Expense saved! ✅");
+      if (editingId) {
+        const ref = doc(db, "costTracker", userId, "expenses", editingId);
+        await updateDoc(ref, {
+          item,
+          price: parsedPrice
+        });
+        toast.success("Expense updated! ✅");
+        setEditingId(null);
+      } else {
+        await addDoc(collection(db, "costTracker", userId, "expenses"), {
+          item,
+          price: parsedPrice,
+          timestamp: serverTimestamp(),
+        });
+        toast.success("Expense saved! ✅");
+      }
+
       setItem("");
       setPrice("");
       fetchExpenses();
     } catch (err) {
-      console.error("Failed to save:", err);
+      console.error("Failed to save/update:", err);
       toast.error("Failed to save expense.");
     }
   };
@@ -98,17 +122,49 @@ function CostTracker() {
     }
   };
 
+  const handleEditClick = (exp) => {
+    setItem(exp.item);
+    setPrice(exp.price.toString());
+    setEditingId(exp.id);
+  };
+
+  const cancelEdit = () => {
+    setItem("");
+    setPrice("");
+    setEditingId(null);
+  };
+
   const handleResetFilter = () => {
-  setStartDate("");
-  setEndDate("");
-  setTimeout(() => {
-    fetchExpenses();
-  }, 0);
-};
+    setStartDate("");
+    setEndDate("");
+    setTimeout(() => {
+      fetchExpenses();
+    }, 0);
+  };
 
   const formatDate = (timestamp) => {
     if (!timestamp?.toDate) return "Unknown";
     return timestamp.toDate().toLocaleString();
+  };
+
+  // Group expenses by month (NEW)
+  const groupExpensesByMonth = (expenses) => {
+    const groups = {};
+
+    expenses.forEach((exp) => {
+      const date = exp.timestamp?.toDate?.();
+      if (!date) return;
+
+      const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+      if (!groups[monthYear]) {
+        groups[monthYear] = { total: 0, items: [] };
+      }
+
+      groups[monthYear].items.push(exp);
+      groups[monthYear].total += exp.price;
+    });
+
+    return groups;
   };
 
   return (
@@ -137,7 +193,14 @@ function CostTracker() {
               placeholder="e.g. 500"
             />
           </label>
-          <button type="submit" className="save-expense-button">➕ Add Expense</button>
+          <button type="submit" className="save-expense-button">
+            {editingId ? "✅ Update Expense" : "➕ Add Expense"}
+          </button>
+          {editingId && (
+            <button type="button" onClick={cancelEdit} className="reset-expense-button">
+              ❌ Cancel Edit
+            </button>
+          )}
         </form>
 
         <div className="filter-form">
@@ -163,15 +226,39 @@ function CostTracker() {
           <button type="button" onClick={handleResetFilter} className="reset-expense-button">
             🔄 Reset
           </button>
+          <button
+            type="button"
+            onClick={() => setGroupedView(!groupedView)}
+            className="reset-expense-button"
+          >
+            {groupedView ? "🔄 Switch to List View" : "📊 Group by Month"}
+          </button>
         </div>
       </div>
 
       <div className="expense-list">
         {expenses.length === 0 ? (
           <p>No expenses recorded yet.</p>
+        ) : groupedView ? (
+          <>
+            {Object.entries(groupExpensesByMonth(expenses)).map(([month, data]) => (
+              <div key={month} className="expense-card">
+                <h3 style={{ marginBottom: "0.5rem" }}>{month} – ₱{data.total.toFixed(2)}</h3>
+                {data.items.map((exp) => (
+                  <div key={exp.id} style={{ borderTop: "1px solid #ccc", marginTop: "0.5rem", paddingTop: "0.5rem" }}>
+                    <p><strong>Item:</strong> {exp.item}</p>
+                    <p><strong>Price:</strong> ₱{exp.price.toFixed(2)}</p>
+                    <p><strong>Date:</strong> {formatDate(exp.timestamp)}</p>
+                    <button onClick={() => handleEditClick(exp)} className="expense-button edit-expense-button">✏️ Edit</button>
+                    <button onClick={() => handleDelete(exp.id)} className="expense-button delete-expense-button">🗑️ Delete</button>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </>
         ) : (
           <>
-            <h3 style={{ color: "#2c3e50", marginTop: "1rem", marginBottom: "1rem" }}>
+            <h3 style={{ color: "#2c3e50", marginTop: "1rem" }}>
               Total: ₱{total.toFixed(2)}
             </h3>
             {expenses.map((exp) => (
@@ -179,12 +266,8 @@ function CostTracker() {
                 <p><strong>Item:</strong> {exp.item}</p>
                 <p><strong>Price:</strong> ₱{exp.price.toFixed(2)}</p>
                 <p><strong>Date:</strong> {formatDate(exp.timestamp)}</p>
-                <button
-                  onClick={() => handleDelete(exp.id)}
-                  className="delete-expense-button"
-                >
-                  🗑️ Delete
-                </button>
+                <button onClick={() => handleEditClick(exp)} className="expense-button edit-expense-button">✏️ Edit</button>
+                <button onClick={() => handleDelete(exp.id)} className="expense-button delete-expense-button">🗑️ Delete</button>
               </div>
             ))}
           </>
