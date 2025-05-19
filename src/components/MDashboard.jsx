@@ -259,7 +259,7 @@ function MDashboard() {
       <div className="button-row">
         <button type="button" onClick={handleSave} className="save-button">💾 Save</button>
         <button type="button" onClick={clearAll} className="clear-button">🧹 Clear All</button>
-        <Link to="/maintenance-logs" className="history-button">📜 View History</Link>
+        <Link to="/maintenance-logs" className="history-button btn btn-secondary">📜 View History</Link>
       </div>
 
       <div className="schedule-list">
