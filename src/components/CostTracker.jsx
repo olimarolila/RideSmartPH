@@ -1,17 +1,7 @@
 import '../css/CostTracker.css';
 import { useEffect, useState } from "react";
 import { db, auth } from "../firebase";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  serverTimestamp,
-  query,
-  orderBy,
-  where,
-  deleteDoc,
-  doc
-} from "firebase/firestore";
+import { collection, addDoc, getDocs, serverTimestamp, query, orderBy, where, deleteDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -60,7 +50,6 @@ function CostTracker() {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setExpenses(data);
 
-      // Calculate total
       const totalAmount = data.reduce((sum, e) => sum + e.price, 0);
       setTotal(totalAmount);
     } catch (err) {
@@ -112,12 +101,10 @@ function CostTracker() {
   const handleResetFilter = () => {
   setStartDate("");
   setEndDate("");
-  // Wait until state updates, then fetch
   setTimeout(() => {
     fetchExpenses();
   }, 0);
 };
-
 
   const formatDate = (timestamp) => {
     if (!timestamp?.toDate) return "Unknown";
