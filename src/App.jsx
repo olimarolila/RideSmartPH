@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { ToastContainer } from 'react-toastify';
+import "./index.css";
 
 import About from "./pages/About"; 
 import CostTracker from "./components/CostTracker";

@@ -25,7 +25,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>RALPH LORENZ M. BONIFACIO</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel turpis at odio luctus tincidunt. Cras sed ligula eget nisi faucibus tincidunt.</p>
+                            <p>Ralph thrives in motion. A dedicated basketball player, he brings energy, focus, and teamwork — both on and off the court.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/lorenzbnfc/" target="_blank" rel="noopener noreferrer">
@@ -51,7 +51,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>LAURENZ NICOLO T. BRIONES</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar eros nec augue convallis tempor.</p>
+                            <p>Laurenz lives and breathes music. Whether it’s strumming a guitar or playing the piano, and as the events coordinator of Miktinig, his rhythm and passion shine through in every performance.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/renzybriones_/" target="_blank" rel="noopener noreferrer">
@@ -77,7 +77,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>OLIMAR DOMINIC R. OLILA</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed lectus vitae nisl sodales fringilla.</p>
+                            <p>Olimar is the type of person who keeps things in order. As the secretary of the student council, he’s all about planning, organizing, and making sure everything is on track — a true master of structure and responsibility.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/hironoli_/" target="_blank" rel="noopener noreferrer">
@@ -103,7 +103,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>JULIANNE MURIEL L. PEÑA</h4>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus.</p>
+                            <p>Julianne finds joy in creativity. With a love for drawing and a competitive spirit in Valorant, she brings imagination and bold expression to everything she does.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/julmurie/" target="_blank" rel="noopener noreferrer">

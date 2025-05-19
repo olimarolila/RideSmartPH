@@ -125,7 +125,7 @@ function MaintenanceHistory() {
         </div>
       )}
 
-      <ToastContainer position="top-right" autoClose={2000} />
+     
     </div>
   );
 }

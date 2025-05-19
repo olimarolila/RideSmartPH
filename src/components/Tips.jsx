@@ -1,6 +1,9 @@
 import '../css/Tips.css';
 import sustainableTips from '../data/tips';
 
+// Sound effect
+import clickSound from '../assets/sounds/click.wav';
+
 // Icon imports (match file names exactly)
 import tip1Icon from '../assets/images/eco-drop.png';
 import tip2Icon from '../assets/images/engine-check.png';
@@ -16,7 +19,6 @@ import tip11Icon from '../assets/images/natural.png';
 import tip12Icon from '../assets/images/speedometer.png';
 import tip13Icon from '../assets/images/group.png';
 
-// Map icon names (from tips.js) to actual imported images
 const iconMap = {
   "eco-drop": tip1Icon,
   "engine-check": tip2Icon,
@@ -34,11 +36,21 @@ const iconMap = {
 };
 
 function Tips() {
+  const playClickSound = () => {
+    const audio = new Audio(clickSound);
+    audio.play();
+  };
+
   return (
     <div className="tips-container">
       <div className="tips-grid">
         {sustainableTips.map((item) => (
-          <div key={item.id} className="tip-card">
+          <div
+            key={item.id}
+            className="tip-card"
+            onClick={playClickSound}
+            style={{ cursor: "pointer" }}
+          >
             <div className="tip-header">
               {item.icon && iconMap[item.icon] && (
                 <img
