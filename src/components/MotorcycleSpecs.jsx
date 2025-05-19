@@ -118,28 +118,37 @@ const handleRemove = async (bike) => {
   };
 
   useEffect(() => {
-    const fetchMotorcycles = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `https://api.api-ninjas.com/v1/motorcycles?make=${brand}`,
-          {
-            headers: {
-              'X-Api-Key': 'KkvMqe5Wuu+EKuuaCzFK5w==Z5LYVswitw5RWktW'
-            }
-          }
-        );
-        const data = await response.json();
-        setMotorcycles(data);
-      } catch (error) {
-        console.error("Error fetching motorcycle data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchMotorcycles = async () => {
+    if (!brand.trim()) {
+      setMotorcycles([]);
+      setLoading(false);
+      return;
+    }
 
-    fetchMotorcycles();
-  }, [brand]);
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://api.api-ninjas.com/v1/motorcycles?make=${brand}`,
+        {
+          headers: {
+            'X-Api-Key': 'KkvMqe5Wuu+EKuuaCzFK5w==Z5LYVswitw5RWktW'
+          }
+        }
+      );
+
+      const data = await response.json();
+      setMotorcycles(data);
+    } catch (error) {
+      console.error("Error fetching motorcycle data:", error);
+      setMotorcycles([]); // Optional: clear results on error
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchMotorcycles();
+}, [brand]);
+
 
   return (
     <div className="container motorcycle-container">

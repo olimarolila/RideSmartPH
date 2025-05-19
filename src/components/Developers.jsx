@@ -5,7 +5,6 @@ import BONIFACIO from "../assets/images/BONIFACIO.png";
 import OLILA from "../assets/images/OLILA.png";
 import PENA from "../assets/images/PEÑA.png";
 
-// Custom social icons
 import fbIcon from "../assets/images/facebook.png";
 import igIcon from "../assets/images/instagram.png";
 import mailIcon from "../assets/images/email.png";
@@ -16,7 +15,7 @@ function Developers() {
             <h2 className="developer-title">OUR DEVELOPERS</h2>
             <div className="developer-cards">
 
-                {/* BONIFACIO with overlay and socials */}
+                {/* BONIFACIO */}
                 <div className="developer-card">
                     <img src={BONIFACIO} alt="Ralph Bonifacio" className="developer-img" />
                     <div className="developer-info">
@@ -43,8 +42,8 @@ function Developers() {
                 </div>
 
                 {/* BRIONES */}
-                  <div className="developer-card">
-                    <img src={BRIONES} alt="Laurenz Briones" className="developer-img" />
+                    <div className="developer-card">
+                        <img src={BRIONES} alt="Laurenz Briones" className="developer-img" />
                     <div className="developer-info">
                         <h3>LAURENZ NICOLO T. BRIONES</h3>
                         <p>Project Developer</p>
