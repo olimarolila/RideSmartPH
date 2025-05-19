@@ -179,7 +179,7 @@ function MDashboard() {
             <p>
               Next: {nextDateString}
               {isOverdue(nextDate) && (
-                <span className="overdue-warning"> 🔴 Overdue!</span>
+                <span className="overdue-warning"> ❗ Overdue!</span>
               )}
             </p>
           </div>
