@@ -6,15 +6,20 @@ import { Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 
+import { toast } from 'react-toastify';
+
+
 function NavBar({ openLogin, openSignUp, currentUser }) {
     const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            alert("Logged out successfully.");
-        } catch (error) {
-            console.error("Logout error:", error.message);
-        }
+    try {
+        await signOut(auth);
+        toast.success("Logged out successfully.");
+    } catch (error) {
+        console.error("Logout error:", error.message);
+        toast.error("Logout failed. Please try again.");
+    }
     };
+
 
     const getGreeting = () => {
         const hour = new Date().getHours();

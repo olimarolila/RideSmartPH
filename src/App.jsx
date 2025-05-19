@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { ToastContainer } from 'react-toastify';
+import "./index.css";
 
 // Components
 import NavBar from "./components/NavBar";
@@ -17,7 +19,6 @@ import MaintenanceLogs from "./components/MaintenanceLogs";
 import Tips from "./components/Tips";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import "./index.css";
 
 
 
@@ -116,6 +117,7 @@ function App() {
           <img src={loadingGif} alt="Loading..." className="loading-motor" />
         </div>
       )}
+      <ToastContainer position="top-right" autoClose={2000} />
     </div>
   </Router>
 );
