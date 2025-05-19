@@ -25,7 +25,6 @@ function MDashboard() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const mileageWarningShown = useRef(false);
 
-  // ✅ Load user and dashboard data safely
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -42,6 +41,7 @@ function MDashboard() {
             }
           } catch (error) {
             toast.error("❌ Failed to load data.");
+            console.error(error);
           } finally {
             setIsInitialLoad(false);
           }
@@ -56,7 +56,6 @@ function MDashboard() {
     return () => unsubscribe();
   }, []);
 
-  // ✅ Show toast warning when nearing 5000km
   useEffect(() => {
     const value = Number(currentMileage);
 
@@ -70,9 +69,12 @@ function MDashboard() {
     }
   }, [currentMileage]);
 
-  // ✅ Save data and log to history
   const handleSave = async () => {
-    if (!userId || isInitialLoad) return;
+    const user = auth.currentUser;
+    if (!user || !userId || isInitialLoad) {
+      toast.error("❌ User not authenticated.");
+      return;
+    }
 
     try {
       const payload = {
@@ -80,9 +82,9 @@ function MDashboard() {
         currentMileage,
       };
 
-      await setDoc(doc(db, "maintenanceLogs", userId), payload);
+      await setDoc(doc(db, "maintenanceLogs", user.uid), payload);
 
-      await addDoc(collection(db, "maintenanceLogs", userId, "history"), {
+      await addDoc(collection(db, "maintenanceLogs", user.uid, "history"), {
         ...payload,
         savedAt: serverTimestamp(),
       });
@@ -95,7 +97,7 @@ function MDashboard() {
   };
 
   const handleChange = (e) => {
-    setMaintenanceData({  
+    setMaintenanceData({
       ...maintenanceData,
       [e.target.name]: e.target.value,
     });
@@ -203,9 +205,11 @@ function MDashboard() {
       tireCheck: "",
     });
     setCurrentMileage("");
-    if (userId) {
+
+    const user = auth.currentUser;
+    if (user) {
       try {
-        await setDoc(doc(db, "maintenanceLogs", userId), {
+        await setDoc(doc(db, "maintenanceLogs", user.uid), {
           maintenanceData: {},
           currentMileage: "",
         });
