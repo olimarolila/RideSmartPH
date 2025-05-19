@@ -32,7 +32,7 @@ function NavBar({ openLogin, openSignUp, currentUser }) {
 
     return (
         <div className="navigation">
-            <nav className="navbar navbar-expand-lg">
+            <nav className="navbar navbar-expand-xxl">
                 <div className="container-fluid d-flex align-items-center ms-3">
                     <Link className="navbar-brand" to="/">
                         <img src={logo} alt="Logo" width={280} />

@@ -1,5 +1,6 @@
 /* MotorcycleSpecs.css */
 
+
 .motorcycle-container {
   margin-top: 6rem;
 }
@@ -30,7 +31,7 @@
 }
 
 .bookmarked {
-  background-color: #f0f8ff;
+  background-color: #edfdef;
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -92,4 +93,26 @@
   transform: scale(1.2);
   transition: 0.2s ease;
 }
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.page-btn {
+  background-color: #4E8E40;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-btn.active {
+  background-color: #133D1E;
+  font-weight: bold;
+}
+
 

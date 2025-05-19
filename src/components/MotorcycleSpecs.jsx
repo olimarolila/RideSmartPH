@@ -16,6 +16,15 @@ function MotorcycleSpecs() {
   const [currentUser, setCurrentUser] = useState(null);
   const [selectedBike, setSelectedBike] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const totalPages = Math.ceil(motorcycles.length / itemsPerPage);
+  const paginatedMotorcycles = motorcycles.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -134,9 +143,13 @@ const handleRemove = async (bike) => {
 
   return (
     <div className="container motorcycle-container">
-      <img src="src/assets/images/MotorMan.PNG" alt="" height={400} />
+      <img src="src/assets/images/MotorMan2.PNG" alt="" height={400} />
       <h2>Motorcycle Specs for "{brand}"</h2>
 
+
+      <div className="row mt-4">
+        {/* Left: Motorcycle Search Results */}
+        <div className="col-md-8">
       <input
         type="text"
         value={brand}
@@ -144,14 +157,10 @@ const handleRemove = async (bike) => {
         placeholder="Enter motorcycle brand"
         className="form-control motorcycle-input"
       />
-
-      <div className="row mt-4">
-        {/* Left: Motorcycle Search Results */}
-        <div className="col-md-8">
           {loading ? (
             <p>Loading...</p>
           ) : motorcycles.length > 0 ? (
-            motorcycles.map((bike, index) => {
+            paginatedMotorcycles.map((bike, index) => {
               const saved = isSaved(bike);
               return (
                 <div key={index} className="card motorcycle-card" onClick={() => handleCardClick(bike)}>
@@ -174,6 +183,18 @@ const handleRemove = async (bike) => {
           ) : (
             <p>No motorcycles found for "{brand}"</p>
           )}
+          <div className="pagination mt-3">
+      {Array.from({ length: totalPages }, (_, i) => (
+        <button
+          key={i}
+          className={`page-btn ${currentPage === i + 1 ? "active" : ""}`}
+          onClick={() => setCurrentPage(i + 1)}
+        >
+          {i + 1}
+        </button>
+      ))}
+    </div>
+
         </div>
 
         {/* Right: Bookmarked Bikes */}
@@ -198,6 +219,7 @@ const handleRemove = async (bike) => {
                   ></i>
                 </div>
               </div>
+              
             ))
           ) : (
             <p className="text-muted">No bookmarks yet</p>
