@@ -15,6 +15,9 @@ import Motorcycles from "./pages/Motorcycles";
 import MDashboard from "./components/MDashboard";
 import MaintenanceLogs from "./components/MaintenanceLogs";
 import Tips from "./components/Tips";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+import "./index.css";
 
 
 
@@ -58,48 +61,65 @@ function App() {
     };
 
     return (
-        <Router>
-            <div>
-                <NavBar 
-                    openLogin={openLogin} 
-                    openSignUp={openSignUp} 
-                    currentUser={currentUser} 
-                />
+  <Router>
+    <div>
+      <NavBar 
+        openLogin={openLogin} 
+        openSignUp={openSignUp} 
+        currentUser={currentUser} 
+      />
 
-                <Routes>
-                    <Route path="/" element={
-                        <>
-                            <Header openLogin={openLogin} />
-                            <Info />
-                        </>
-                    } />
-                    <Route path="/motorcycles" element={<Motorcycles />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/maintenance-dashboard" element={<MDashboard />} />
-                    <Route path="/maintenance-logs" element={<MaintenanceLogs />} />
-                    <Route path="/tips" element={<Tips />} />
+      <Routes>
+        <Route path="/" element={
+          <div className="backgroundImg">
+            <Header openLogin={openLogin} />
+            <Info />
+          </div>
+        } />
 
-                </Routes>
+        <Route path="/about" element={<About />} />
+        <Route path="/tips" element={<Tips />} />
 
-                <LoginModal 
-                    show={showLoginModal} 
-                    onClose={closeModals} 
-                    onSwitch={openSignUp} 
-                />
-                <SignUpModal 
-                    show={showSignUpModal} 
-                    onClose={closeModals} 
-                    onSwitch={openLogin} 
-                />
+        {/* Protected routes */}
+        <Route path="/motorcycles" element={
+          <ProtectedRoute>
+            <Motorcycles />
+          </ProtectedRoute>
+        } />
+        <Route path="/maintenance-dashboard" element={
+          <ProtectedRoute>
+            <MDashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/maintenance-logs" element={
+          <ProtectedRoute>
+            <MaintenanceLogs />
+          </ProtectedRoute>
+        } />
+      </Routes>
 
-                {loading && (
-                    <div className="loading-screen">
-                        <img src={loadingGif} alt="Loading..." className="loading-motor" />
-                    </div>
-                )}
-            </div>
-        </Router>
-    );
+      <Footer />
+
+      <LoginModal 
+        show={showLoginModal} 
+        onClose={closeModals} 
+        onSwitch={openSignUp} 
+      />
+      <SignUpModal 
+        show={showSignUpModal} 
+        onClose={closeModals} 
+        onSwitch={openLogin} 
+      />
+
+      {loading && (
+        <div className="loading-screen">
+          <img src={loadingGif} alt="Loading..." className="loading-motor" />
+        </div>
+      )}
+    </div>
+  </Router>
+);
+
 }
 
 export default App;
