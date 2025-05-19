@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import '../css/LoginModal.css';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '../firebase'; // ✅ import auth and provider
+import { auth, googleProvider } from '../firebase';
+import { toast } from 'react-toastify'; // ✅ Toastify
 
 function LoginModal({ show, onClose, onSwitch }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -10,21 +11,21 @@ function LoginModal({ show, onClose, onSwitch }) {
 
     const handleLogin = async () => {
         if (!email || !password) {
-            alert('Please enter both email and password.');
+            toast.warn('Please enter both email and password.');
             return;
         }
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            alert('Login successful!');
+            toast.success('Login successful!');
             onClose();
         } catch (error) {
             if (error.code === 'auth/user-not-found') {
-                alert('No account found with this email.');
+                toast.error('No account found with this email.');
             } else if (error.code === 'auth/wrong-password') {
-                alert('Incorrect password.');
+                toast.error('Incorrect password.');
             } else {
-                alert(`Login failed: ${error.message}`);
+                toast.error(`Login failed: ${error.message}`);
             }
         }
     };
@@ -32,10 +33,10 @@ function LoginModal({ show, onClose, onSwitch }) {
     const handleGoogleLogin = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-            alert('Google login successful!');
+            toast.success('Google login successful!');
             onClose();
         } catch (error) {
-            alert(`Google login failed: ${error.message}`);
+            toast.error(`Google login failed: ${error.message}`);
         }
     };
 
