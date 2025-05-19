@@ -1,7 +1,7 @@
 /* ========== Page Background ========== */
 .dashboard-container {
   min-height: 100vh;
-  background-image: url('../images/Dashboard.png'); /* Update path if needed */
+  background-image: url('../images/Dashboard.png'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -17,7 +17,7 @@
   font-weight: bold;
   color: #2c3e50;
   text-align: center;
-  margin-top: 100px; /* ✅ Add this line */
+  margin-top: 100px; 
 
 }
 
