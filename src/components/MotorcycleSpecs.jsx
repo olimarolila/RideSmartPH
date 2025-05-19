@@ -143,7 +143,11 @@ const handleRemove = async (bike) => {
 
   return (
     <div className="container motorcycle-container">
-      <img src="src/assets/images/MotorMan2.PNG" alt="" height={400} />
+      <div style={{ textAlign: "center", marginBottom: "-80px" }}>
+        <img src="src/assets/images/motor_search.png" alt="" height={350} />
+      </div>
+
+
       <h2>Motorcycle Specs for "{brand}"</h2>
 
 
