@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { ToastContainer } from 'react-toastify';
-import "./index.css";
 
 import About from "./pages/About"; 
 import CostTracker from "./components/CostTracker";
@@ -13,8 +12,8 @@ import Header from "./components/Header";
 import Info from "./components/Info";
 import LoginModal from "./components/LoginModal";  
 import MaintenanceLogs from "./components/MaintenanceLogs";
-import Motorcycles from "./pages/Motorcycles"; 
 import MDashboard from "./components/MDashboard";
+import Motorcycles from "./pages/Motorcycles"; 
 import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SignUpModal from "./components/SignUpModal"; 
@@ -29,42 +28,23 @@ function App() {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        const timer = setTimeout(() => { setLoading(false); }, 2000);
         return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setCurrentUser(user);
-        });
+        const unsubscribe = onAuthStateChanged(auth, (user) => { setCurrentUser(user); });
         return () => unsubscribe();
     }, []);
 
-    const openLogin = () => {
-        setShowLoginModal(true);
-        setShowSignUpModal(false);
-    };
-
-    const openSignUp = () => {
-        setShowSignUpModal(true);
-        setShowLoginModal(false);
-    };
-
-    const closeModals = () => {
-        setShowLoginModal(false);
-        setShowSignUpModal(false);
-    };
+    const openLogin = () => { setShowLoginModal(true); setShowSignUpModal(false); };
+    const openSignUp = () => { setShowSignUpModal(true); setShowLoginModal(false); };
+    const closeModals = () => { setShowLoginModal(false); setShowSignUpModal(false); };
 
     return (
         <Router>
             <div>
-                <NavBar 
-                    openLogin={openLogin} 
-                    openSignUp={openSignUp} 
-                    currentUser={currentUser} 
-                />
+                <NavBar openLogin={openLogin} openSignUp={openSignUp} currentUser={currentUser} />
 
                 <Routes>
                     <Route path="/" element={
@@ -104,20 +84,12 @@ function App() {
 
                 <Footer />
 
-                <LoginModal 
-                    show={showLoginModal} 
-                    onClose={closeModals} 
-                    onSwitch={openSignUp} 
-                />
-                <SignUpModal 
-                    show={showSignUpModal} 
-                    onClose={closeModals} 
-                    onSwitch={openLogin} 
-                />
+                <LoginModal show={showLoginModal} onClose={closeModals} onSwitch={openSignUp} />
+                <SignUpModal show={showSignUpModal} onClose={closeModals} onSwitch={openLogin} />
 
                 {loading && (
                     <div className="loading-screen">
-                    <img src={loadingGif} alt="Loading..." className="loading-motor" />
+                        <img src={loadingGif} alt="Loading..." className="loading-motor" />
                     </div>
                 )}
             </div>

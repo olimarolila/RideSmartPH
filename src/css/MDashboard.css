@@ -2,10 +2,9 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: "Poppins", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-/* Headings */
 .dashboard-title {
   text-align: center;
   font-size: 2rem;
@@ -41,7 +40,6 @@
   background-color: #fff;
 }
 
-/* Buttons */
 .button-row {
   display: flex;
   justify-content: flex-end;
@@ -86,7 +84,6 @@
   background-color: #45a049;
 }
 
-/* Success Message */
 .success-message {
   background-color: #e0f7e9;
   color: #2e7d32;
@@ -118,7 +115,6 @@
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Task Title */
 .task-type {
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
@@ -181,7 +177,6 @@ svg {
   margin-bottom: 4px;
 }
 
-/* Responsive Enhancements */
 @media (max-width: 600px) {
   .maintenance-form input[type="date"] {
     font-size: 0.9rem;
@@ -203,7 +198,6 @@ svg {
   }
 }
 
-/* Mileage Status */
 .mileage-status {
   margin-top: 10px;
 }
@@ -232,4 +226,3 @@ svg {
   border-color: #ff4d4f;
   color: #ff4d4f;
 }
-

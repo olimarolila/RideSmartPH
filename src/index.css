@@ -3,21 +3,16 @@ div.backgroundImg {
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-
-    background-position: top center; /* OR try: top right, 20% 40%, etc. */
+    background-position: top center;
 }
 
-
-
-  
-/* for loading */
 .loading-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(23, 32, 23, 0.75); /* Semi-transparent green */
+    background-color: rgba(23, 32, 23, 0.75);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,5 +1,4 @@
 .tips-page {
-    
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -55,13 +54,11 @@
 }
 
 .info-box-link {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
 
 a {
-  text-decoration: none;
-  color: inherit;
+    text-decoration: none;
+    color: inherit;
 }
-
-

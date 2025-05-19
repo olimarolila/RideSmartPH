@@ -1,14 +1,12 @@
 import '../css/NavBar.css';
 import logo from '../assets/images/LOGO WITH TEXT.png';
 import logoutIcon from '../assets/images/logout.png';
+import clickSound from '../assets/sounds/click.wav'; 
 
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
-import clickSound from '../assets/sounds/click.wav'; 
-
 import { toast } from 'react-toastify';
-
 
 function NavBar({ openLogin, openSignUp, currentUser }) {
     const handleLogout = async () => {
