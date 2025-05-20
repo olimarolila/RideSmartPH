@@ -1,9 +1,9 @@
-import "../css/MaintenanceLogs.css";
-import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { auth, db } from "../firebase";
-import { collection, getDocs, query, orderBy, where, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, query, orderBy, deleteDoc, doc } from "firebase/firestore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../css/MaintenanceLogs.css";
 
 function MaintenanceHistory() {
   const [history, setHistory] = useState([]);
@@ -26,26 +26,33 @@ function MaintenanceHistory() {
     if (!userId) return;
 
     const historyRef = collection(db, "maintenanceLogs", userId, "history");
-    let q = query(historyRef, orderBy("savedAt", "desc"));
-
-    if (startDate && endDate) {
-      const start = new Date(startDate);
-      const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999);
-
-      q = query(
-        historyRef,
-        where("savedAt", ">=", start),
-        where("savedAt", "<=", end),
-        orderBy("savedAt", "desc")
-      );
-    }
-
+    const q = query(historyRef, orderBy("savedAt", "desc"));
     const snapshot = await getDocs(q);
-    const data = snapshot.docs.map((doc) => ({
+
+    let data = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
+
+    if (startDate && endDate) {
+      const startYear = new Date(startDate).getFullYear();
+      const endYear = new Date(endDate).getFullYear();
+
+      data = data.filter((entry) => {
+        const fieldsToCheck = [
+          entry.maintenanceData?.changeOil,
+          entry.maintenanceData?.engineMaintenance,
+          entry.maintenanceData?.tireCheck,
+        ];
+
+        return fieldsToCheck.some((dateStr) => {
+          if (!dateStr) return false;
+          const year = new Date(dateStr).getFullYear();
+          return year >= startYear && year <= endYear;
+        });
+      });
+    }
+
     setHistory(data);
   };
 
@@ -80,7 +87,9 @@ function MaintenanceHistory() {
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">📜 Maintenance History</h2>
-      <p className="dashboard-subtitle">Search or filter by date range.</p>
+      <p className="dashboard-subtitle">
+        Filter by year of maintenance (Change Oil, Engine Maintenance, or Tire Check).
+      </p>
 
       <div className="maintenance-form">
         <label>
@@ -125,7 +134,7 @@ function MaintenanceHistory() {
         </div>
       )}
 
-     
+      <ToastContainer />
     </div>
   );
 }
