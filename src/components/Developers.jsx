@@ -1,11 +1,8 @@
 import '../css/Developers.css';
-
 import BRIONES from "../assets/images/BRIONES.png";
 import BONIFACIO from "../assets/images/BONIFACIO.png";
 import OLILA from "../assets/images/OLILA.png";
 import PENA from "../assets/images/PEÑA.png";
-
-// Custom social icons
 import fbIcon from "../assets/images/facebook.png";
 import igIcon from "../assets/images/instagram.png";
 import mailIcon from "../assets/images/email.png";
@@ -16,7 +13,6 @@ function Developers() {
             <h2 className="developer-title">OUR DEVELOPERS</h2>
             <div className="developer-cards">
 
-                {/* BONIFACIO with overlay and socials */}
                 <div className="developer-card">
                     <img src={BONIFACIO} alt="Ralph Bonifacio" className="developer-img" />
                     <div className="developer-info">
@@ -42,8 +38,7 @@ function Developers() {
                     </div>
                 </div>
 
-                {/* BRIONES */}
-                  <div className="developer-card">
+                <div className="developer-card">
                     <img src={BRIONES} alt="Laurenz Briones" className="developer-img" />
                     <div className="developer-info">
                         <h3>LAURENZ NICOLO T. BRIONES</h3>
@@ -52,7 +47,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>LAURENZ NICOLO T. BRIONES</h4>
-                            <p>Laurenz lives and breathes music. Whether it’s strumming a guitar or playing the piano, and as the events coordinator of Miktinig, his rhythm and passion shine through in every performance.</p>
+                            <p>Laurenz lives and breathes music. Whether it's strumming a guitar or playing the piano, and as the events coordinator of Miktinig, his rhythm and passion shine through in every performance.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/renzybriones_/" target="_blank" rel="noopener noreferrer">
@@ -68,7 +63,6 @@ function Developers() {
                     </div>
                 </div>
 
-                {/* OLILA */}
                 <div className="developer-card">
                     <img src={OLILA} alt="Olimar Olila" className="developer-img" />
                     <div className="developer-info">
@@ -78,7 +72,7 @@ function Developers() {
                     <div className="developer-hover-description">
                         <div className="hover-text">
                             <h4>OLIMAR DOMINIC R. OLILA</h4>
-                            <p>Olimar is the type of person who keeps things in order. As the secretary of the student council, he’s all about planning, organizing, and making sure everything is on track — a true master of structure and responsibility.</p>
+                            <p>Olimar is the type of person who keeps things in order. As the secretary of the student council, he's all about planning, organizing, and making sure everything is on track — a true master of structure and responsibility.</p>
                         </div>
                         <div className="developer-socials">
                             <a href="https://www.instagram.com/hironoli_/" target="_blank" rel="noopener noreferrer">
@@ -94,8 +88,7 @@ function Developers() {
                     </div>
                 </div>
 
-                {/* PENA */}
-                 <div className="developer-card">
+                <div className="developer-card">
                     <img src={PENA} alt="Julianne Peña" className="developer-img" />
                     <div className="developer-info">
                         <h3>JULIANNE MURIEL L. PEÑA</h3>

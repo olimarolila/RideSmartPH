@@ -4,18 +4,18 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
 function ProtectedRoute({ children }) {
-  const [user, setUser] = useState(undefined); // undefined = loading
+    const [user, setUser] = useState(undefined); // undefined = loading
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
-  if (user === undefined) return null; // or return a loading spinner
+    if (user === undefined) return null; // or return a loading spinner
 
-  return user ? children : <Navigate to="/" replace />;
+    return user ? children : <Navigate to="/" replace />;
 }
 
 export default ProtectedRoute;

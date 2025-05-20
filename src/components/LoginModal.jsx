@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import '../css/LoginModal.css';
+import { useState } from 'react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
-import { toast } from 'react-toastify'; // ✅ Toastify
+import { toast } from 'react-toastify';
 
 function LoginModal({ show, onClose, onSwitch }) {
     const [showPassword, setShowPassword] = useState(false);
