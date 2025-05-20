@@ -51,27 +51,13 @@ function LoginModal({ show, onClose, onSwitch }) {
                     <div className="modal-body">
 
                         <div className="form-floating mb-3">
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="login-email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                            <input type="email" className="form-control" id="login-email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <label htmlFor="login-email">Email</label>
                         </div>
 
                         <div className="mb-3 position-relative">
                             <div className="form-floating">
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    className="form-control pe-5"
-                                    id="login-password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="login-password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor="login-password">Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowPassword(!showPassword)}>

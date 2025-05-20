@@ -4,7 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
 function ProtectedRoute({ children }) {
-    const [user, setUser] = useState(undefined); // undefined = loading
+    const [user, setUser] = useState(undefined);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -13,7 +13,7 @@ function ProtectedRoute({ children }) {
         return () => unsubscribe();
     }, []);
 
-    if (user === undefined) return null; // or return a loading spinner
+    if (user === undefined) return null;
 
     return user ? children : <Navigate to="/" replace />;
 }

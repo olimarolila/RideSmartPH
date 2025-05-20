@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import '../css/SignUpModal.css';
-import { auth } from '../firebase'; // 👈 import auth
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // 👈 import functions
+import { useState } from 'react';
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 function SignUpModal({ show, onClose, onSwitch }) {
     const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +41,7 @@ function SignUpModal({ show, onClose, onSwitch }) {
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(userCredential.user, { displayName: username }); // Set username
+            await updateProfile(userCredential.user, { displayName: username });
 
             alert('Account created successfully!');
             onClose();
@@ -60,39 +60,18 @@ function SignUpModal({ show, onClose, onSwitch }) {
                     </div>
                     <div className="modal-body">
                         <div className="form-floating mb-3">
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="signup-username"
-                                placeholder="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                            />
+                            <input type="text" className="form-control" id="signup-username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
                             <label htmlFor="signup-username">Username</label>
                         </div>
 
                         <div className="form-floating mb-3">
-                            <input
-                                type="email"
-                                className="form-control"
-                                id="signup-email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                            <input type="email" className="form-control" id="signup-email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             <label htmlFor="signup-email">Email</label>
                         </div>
 
                         <div className="mb-1 position-relative">
                             <div className="form-floating">
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    className="form-control pe-5"
-                                    id="signup-password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <input type={showPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
                                 <label htmlFor="signup-password">Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowPassword(!showPassword)}>
@@ -103,14 +82,7 @@ function SignUpModal({ show, onClose, onSwitch }) {
 
                         <div className="mb-1 position-relative">
                             <div className="form-floating">
-                                <input
-                                    type={showConfirmPassword ? 'text' : 'password'}
-                                    className="form-control pe-5"
-                                    id="signup-confirmPassword"
-                                    placeholder="Confirm Password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
+                                <input type={showConfirmPassword ? 'text' : 'password'} className="form-control pe-5" id="signup-confirmPassword" placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                                 <label htmlFor="signup-confirmPassword">Confirm Password</label>
                             </div>
                             <button type="button" className="btn toggle-visibility" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
