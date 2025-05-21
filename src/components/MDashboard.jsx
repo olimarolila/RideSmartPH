@@ -268,6 +268,7 @@ function MDashboard() {
         {renderTask("Tire Check", "tireCheck", 2)}
       </div>
 
+           <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
     </div>
   );
 }
