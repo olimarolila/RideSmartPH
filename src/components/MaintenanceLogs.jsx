@@ -25,6 +25,7 @@ function MaintenanceHistory() {
   const fetchHistory = async () => {
     if (!userId) return;
 
+<<<<<<< HEAD
     const historyRef = collection(db, "maintenanceLogs", userId, "history");
     const q = query(historyRef, orderBy("savedAt", "desc"));
     const snapshot = await getDocs(q);
@@ -55,6 +56,10 @@ function MaintenanceHistory() {
 
     setHistory(data);
   };
+=======
+        const historyRef = collection(db, "maintenanceLogs", userId, "history");
+        let q = query(historyRef, orderBy("savedAt", "desc"));
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
 
   const clearHistory = async () => {
     if (!userId) return;
@@ -62,9 +67,17 @@ function MaintenanceHistory() {
     const confirmClear = window.confirm("Are you sure you want to clear all history?");
     if (!confirmClear) return;
 
+<<<<<<< HEAD
     try {
       const historyRef = collection(db, "maintenanceLogs", userId, "history");
       const snapshot = await getDocs(historyRef);
+=======
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), })
+        );
+        setHistory(data);
+    };
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
 
       const deletePromises = snapshot.docs.map((docSnap) =>
         deleteDoc(doc(db, "maintenanceLogs", userId, "history", docSnap.id))
@@ -84,12 +97,35 @@ function MaintenanceHistory() {
     return timestamp.toDate().toLocaleString();
   };
 
+<<<<<<< HEAD
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">📜 Maintenance History</h2>
       <p className="dashboard-subtitle">
         Filter by year of maintenance (Change Oil, Engine Maintenance, or Tire Check).
       </p>
+=======
+            const deletePromises = snapshot.docs.map((docSnap) => deleteDoc(doc(db, "maintenanceLogs", userId, "history", docSnap.id)));
+
+            await Promise.all(deletePromises);
+            setHistory([]);
+            toast.success("Maintenance history cleared successfully! 🗑️");
+        } catch (error) {
+            console.error("Error clearing history:", error);
+            toast.error("Failed to clear history. Please try again.");
+        }
+    };
+
+    const formatDate = (timestamp) => {
+        if (!timestamp?.toDate) return "Unknown";
+        return timestamp.toDate().toLocaleString();
+    };
+
+    return (
+        <div className="dashboard-container">
+            <h2 className="dashboard-title">📜 Maintenance History</h2>
+            <p className="dashboard-subtitle">Search or filter by date range.</p>
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
 
       <div className="maintenance-form">
         <label>
@@ -134,9 +170,29 @@ function MaintenanceHistory() {
         </div>
       )}
 
+<<<<<<< HEAD
       <ToastContainer />
     </div>
   );
+=======
+            {history.length === 0 ? (
+                <p>No history found.</p>
+            ) : (
+                <div className="schedule-list">
+                    {history.map((entry) => (
+                        <div key={entry.id} className="schedule-card">
+                            <p><strong>Date Saved:</strong> {formatDate(entry.savedAt)}</p>
+                            <p><strong>Change Oil:</strong> {entry.maintenanceData?.changeOil || "N/A"}</p>
+                            <p><strong>Engine Maintenance:</strong> {entry.maintenanceData?.engineMaintenance || "N/A"}</p>
+                            <p><strong>Tire Check:</strong> {entry.maintenanceData?.tireCheck || "N/A"}</p>
+                            <p><strong>Mileage:</strong> {entry.currentMileage || "N/A"} km</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
 }
 
 export default MaintenanceHistory;

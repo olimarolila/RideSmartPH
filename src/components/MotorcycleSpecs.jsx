@@ -147,7 +147,7 @@ function MotorcycleSpecs() {
                 <img src="src/assets/images/motor_search.png" alt="" height={350} />
             </div>
 
-            <h2>Motorcycle Specs for "{brand}"</h2>
+            <h2 style={{ fontWeight:"bold", color:"#2c3e50" }}>Motorcycle Specs for "{brand}"</h2>
 
             <div className="row mt-4">
                 {/* Left: Motorcycle Search Results */}

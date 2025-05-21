@@ -114,6 +114,10 @@ function Developers() {
                 </div>
 
             </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
 
             {/* About RideSmart PH section */}
             <div className="about-ridesmart">
@@ -126,6 +130,22 @@ function Developers() {
                     Whether you're a daily commuter or a delivery rider, RideSmart helps you extend the life of your motorcycle while contributing to responsible consumption.
                 </p>
             </div>
+<<<<<<< HEAD
+=======
+=======
+            
+                <div className="about-ridesmart">
+                    <h2 className="about-title">ABOUT RIDESMART PH</h2>
+                    <p className="about-description">
+                        <strong>RideSmart PH</strong> is a web-based motorcycle maintenance tracker that empowers riders to stay on top of their vehicle's condition. 
+                        It allows users to log their last oil change, engine maintenance, and tire checks, while also tracking mileage and generating reminders for future maintenance.
+                        <br /><br />
+                        Designed with sustainability in mind, RideSmart PH encourages preventive care to reduce environmental impact and promote safe, efficient riding. 
+                        Whether you're a daily commuter or a delivery rider, RideSmart helps you extend the life of your motorcycle while contributing to responsible consumption.
+                    </p>
+                </div>
+>>>>>>> 1649a5e2e9ba93bd6a7913f1403bb53c7c2564f5
+>>>>>>> 0525b5976e53cef81ee66df76f6078cc98831347
         </div>
     );
 }
