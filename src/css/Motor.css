@@ -1,9 +1,10 @@
 .motorcycle-container {
     margin-top: 6rem;
+    height:102rem;
 }
 
 .motorcycle-input {
-    margin-top: 1.5rem;
+    /* margin-top: .5rem; */
     margin-bottom: 1.5rem;
 }
 
@@ -28,7 +29,7 @@
 }
 
 .bookmarked {
-    background-color: #edfdef;
+    background-color: #eefff1;
     cursor: pointer;
     transition: 0.2s ease;
 }

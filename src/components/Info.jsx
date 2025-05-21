@@ -14,7 +14,7 @@ function Info() {
                         <div>
                             <div className="d-flex align-items-center mb-2">
                                 <img src={scheduleIcon} alt="Specs Icon" className="info-icon-title" />
-                                <h6 className="info-title mb-0">Motorcycle Specs</h6>
+                                <h6 className="info-title mb-0">Motorcycle Search</h6>
                             </div>
                             <p className="info-subtitle mb-0">
                                 Search and explore detailed specifications of different motorcycle models.
