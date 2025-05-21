@@ -150,7 +150,6 @@ function MotorcycleSpecs() {
             <h2 style={{ fontWeight:"bold", color:"#2c3e50" }}>Motorcycle Specs for "{brand}"</h2>
 
             <div className="row mt-4">
-                {/* Left: Motorcycle Search Results */}
                 <div className="col-md-8">
                     <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="Enter motorcycle brand" className="form-control motorcycle-input" />
                     {loading ? (
@@ -186,9 +185,8 @@ function MotorcycleSpecs() {
                             </button>
                         ))}
                     </div>
-              </div>
+                </div>
 
-                {/* Right: Bookmarked Bikes */}
                 <div className="col-md-4">
                     <h4>Bookmarked Models</h4>
                     {savedBikes.length > 0 ? (
@@ -209,7 +207,6 @@ function MotorcycleSpecs() {
                 </div>
             </div>
 
-            {/* Modal */}
             {showModal && selectedBike && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}>
