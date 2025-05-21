@@ -160,3 +160,12 @@
 .delete-expense-button:hover {
     background-color: #c0392b;
 }
+
+.date-time-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.date-time-group label {
+    flex: 1;
+}

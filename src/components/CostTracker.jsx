@@ -9,13 +9,15 @@ import "react-toastify/dist/ReactToastify.css";
 function CostTracker() {
     const [item, setItem] = useState("");
     const [price, setPrice] = useState("");
+    const [customDate, setCustomDate] = useState("");
+    const [customTime, setCustomTime] = useState("");
     const [userId, setUserId] = useState(null);
     const [expenses, setExpenses] = useState([]);
     const [total, setTotal] = useState(0);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [editingId, setEditingId] = useState(null);
-    const [groupedView, setGroupedView] = useState(false); // NEW
+    const [groupedView, setGroupedView] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -54,9 +56,9 @@ function CostTracker() {
 
             const totalAmount = data.reduce((sum, e) => sum + e.price, 0);
             setTotal(totalAmount);
-            } catch (err) {
-                console.error("Error fetching expenses:", err);
-                toast.error("Failed to load expenses.");
+        } catch (err) {
+            console.error("Error fetching expenses:", err);
+            toast.error("Failed to load expenses.");
         }
     };
 
@@ -65,20 +67,25 @@ function CostTracker() {
         if (!item.trim() || !price.trim()) {
             toast.warning("Please enter both item and price.");
             return;
-      }
+        }
 
-    const parsedPrice = parseFloat(price.replace(/[₱,]/g, ""));
+        const parsedPrice = parseFloat(price.replace(/[₱,]/g, ""));
         if (isNaN(parsedPrice)) {
             toast.error("Invalid price format.");
             return;
-    }
+        }
 
-      try {
+        try {
+            const combinedDateTime = customDate
+                ? new Date(`${customDate}T${customTime || "00:00"}`)
+                : serverTimestamp();
+
             if (editingId) {
                 const ref = doc(db, "costTracker", userId, "expenses", editingId);
                 await updateDoc(ref, {
                     item,
-                    price: parsedPrice
+                    price: parsedPrice,
+                    ...(customDate && { timestamp: combinedDateTime })
                 });
                 toast.success("Expense updated! ✅");
                 setEditingId(null);
@@ -86,14 +93,16 @@ function CostTracker() {
                 await addDoc(collection(db, "costTracker", userId, "expenses"), {
                     item,
                     price: parsedPrice,
-                    timestamp: serverTimestamp(),
+                    timestamp: combinedDateTime
                 });
                 toast.success("Expense saved! ✅");
             }
 
-        setItem("");
-        setPrice("");
-        fetchExpenses();
+            setItem("");
+            setPrice("");
+            setCustomDate("");
+            setCustomTime("");
+            fetchExpenses();
         } catch (err) {
             console.error("Failed to save/update:", err);
             toast.error("Failed to save expense.");
@@ -115,11 +124,19 @@ function CostTracker() {
         setItem(exp.item);
         setPrice(exp.price.toString());
         setEditingId(exp.id);
+
+        if (exp.timestamp?.toDate) {
+            const dt = exp.timestamp.toDate();
+            setCustomDate(dt.toISOString().split("T")[0]);
+            setCustomTime(dt.toTimeString().slice(0, 5));
+        }
     };
 
     const cancelEdit = () => {
         setItem("");
         setPrice("");
+        setCustomDate("");
+        setCustomTime("");
         setEditingId(null);
     };
 
@@ -127,31 +144,43 @@ function CostTracker() {
         setStartDate("");
         setEndDate("");
         setTimeout(() => {
-        fetchExpenses();
+            fetchExpenses();
         }, 0);
     };
 
+    // ✅ NEW DATE FORMAT: "May 20, 2025 • 10:30 AM"
     const formatDate = (timestamp) => {
         if (!timestamp?.toDate) return "Unknown";
-        return timestamp.toDate().toLocaleString();
+        const dateObj = timestamp.toDate();
+
+        const formattedDate = dateObj.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        });
+
+        const formattedTime = dateObj.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "2-digit",
+        });
+
+        return `${formattedDate} • ${formattedTime}`;
     };
 
     const groupExpensesByMonth = (expenses) => {
         const groups = {};
+        expenses.forEach((exp) => {
+            const date = exp.timestamp?.toDate?.();
+            if (!date) return;
 
-            expenses.forEach((exp) => {
-                const date = exp.timestamp?.toDate?.();
-                if (!date) return;
+            const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+            if (!groups[monthYear]) {
+                groups[monthYear] = { total: 0, items: [] };
+            }
 
-                const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
-                if (!groups[monthYear]) {
-                    groups[monthYear] = { total: 0, items: [] };
-                }
-
-                groups[monthYear].items.push(exp);
-                groups[monthYear].total += exp.price;
-          });
-
+            groups[monthYear].items.push(exp);
+            groups[monthYear].total += exp.price;
+        });
         return groups;
     };
 
@@ -171,6 +200,16 @@ function CostTracker() {
                         Price (₱):
                         <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 500" />
                     </label>
+                    <div className="date-time-group">
+                        <label>
+                            Date:
+                            <input type="date" value={customDate} onChange={(e) => setCustomDate(e.target.value)} />
+                        </label>
+                        <label>
+                            Time:
+                            <input type="time" value={customTime} onChange={(e) => setCustomTime(e.target.value)} />
+                        </label>
+                    </div>
                     <button type="submit" className="save-expense-button">
                         {editingId ? "✅ Update Expense" : "➕ Add Expense"}
                     </button>
@@ -196,7 +235,7 @@ function CostTracker() {
                     <button type="button" onClick={handleResetFilter} className="reset-expense-button">
                         🔄 Reset
                     </button>
-                    <button type="button" onClick={() => setGroupedView(!groupedView)} className="reset-expense-button" >
+                    <button type="button" onClick={() => setGroupedView(!groupedView)} className="reset-expense-button">
                         {groupedView ? "🔄 Switch to List View" : "📊 Group by Month"}
                     </button>
                 </div>
@@ -223,7 +262,7 @@ function CostTracker() {
                         ))}
                     </>
                 ) : (
-                  <>
+                    <>
                         <h3 style={{ color: "#2c3e50", marginTop: "1rem" }}>
                             Total: ₱{total.toFixed(2)}
                         </h3>
@@ -236,7 +275,7 @@ function CostTracker() {
                                 <button onClick={() => handleDelete(exp.id)} className="expense-button delete-expense-button">🗑️ Delete</button>
                             </div>
                         ))}
-                  </>
+                    </>
                 )}
             </div>
         </div>
